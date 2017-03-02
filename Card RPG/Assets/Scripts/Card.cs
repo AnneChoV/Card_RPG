@@ -3,20 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Card : MonoBehaviour {
-
     public enum ecardName
     {
-        FIRECARD,
-        OILCARD,
-        HEALCARD,
+        NONE,
         ATTACKCARD,
-        BLOCKCARD
+        BLOCKCARD,
+        FIRECARD,
+        HEALCARD,
+        OILCARD
     }
 
 
     //PUBLIC VARIABLES:
     public enum ecardClass
     {
+        NONE,
         DAMAGE, //normal attack and fire for now - fire long attack short
         HEAL,
         BLOCK,
@@ -25,6 +26,7 @@ public class Card : MonoBehaviour {
 
     public enum ecardElement
     {
+        NONE,
         PHYSICAL,
         FIRE
     }
@@ -43,6 +45,8 @@ public class Card : MonoBehaviour {
 
     bool IsUseableShortRange;
     bool IsUseableLongRange;
+
+    public Sprite[] cardSpriteList; 
 
     //CREATION OF A CARD - In general we will just use the name to create it.
     void CreateCard(int newTier, ecardClass newCardClass, ecardElement newCardElement, Sprite newCardSprite, string newDescription, bool newIsUseableShortRange, bool newIsUseableLongRange)
@@ -77,6 +81,7 @@ public class Card : MonoBehaviour {
         maxDamage = damage;
         IsUseableShortRange = newIsUseableShortRange;
         IsUseableLongRange = newIsUseableLongRange;
+        Debug.Log(cardClass + " " + cardElement + " " + cardName);
     }
 
     void CreateCard(int newTier, ecardClass newCardClass, ecardElement newCardElement, Sprite newCardSprite, string newDescription, int damage)
@@ -90,29 +95,30 @@ public class Card : MonoBehaviour {
         maxDamage = damage;
     }
 
-    void CreateCard(ecardName newCardName)
+    public void CreateCard(ecardName newCardName)
     {
-        if (newCardName == ecardName.FIRECARD)
+        Debug.Log(newCardName);
+        if (newCardName == ecardName.ATTACKCARD)
         {
-            CreateCard(1, ecardClass.DAMAGE, ecardElement.FIRE, cardSprite, "Did someone remember to pack the marsh mellows?", 6, false, true);
-        }
-        else if (newCardName == ecardName.ATTACKCARD)
-        {
-
-            CreateCard(1, ecardClass.DAMAGE, ecardElement.PHYSICAL, cardSprite, "Somewhere a museum is probably looking for this.", 5, true, false);
+            Debug.Log("Boop");
+            CreateCard(1, ecardClass.DAMAGE, ecardElement.PHYSICAL, cardSpriteList[0], "Somewhere a museum is probably looking for this.", 5, true, false);
        
         }
         else if (newCardName == ecardName.BLOCKCARD)
         {
-            CreateCard(1, ecardClass.DAMAGE, ecardElement.PHYSICAL, cardSprite, "Staying safe is a good plan of action.", true, true);
+            CreateCard(1, ecardClass.DAMAGE, ecardElement.PHYSICAL, cardSpriteList[1], "Staying safe is a good plan of action.", true, true);
         }
         else if(newCardName == ecardName.HEALCARD)
         {
-            CreateCard(1, ecardClass.DAMAGE, ecardElement.PHYSICAL, cardSprite, "A heal a day keeps the doctor away.", true, true);
+            CreateCard(1, ecardClass.DAMAGE, ecardElement.PHYSICAL, cardSpriteList[2], "A heal a day keeps the doctor away.", true, true);
+        }
+        else if (newCardName == ecardName.FIRECARD)
+        {
+            CreateCard(1, ecardClass.DAMAGE, ecardElement.FIRE, cardSpriteList[3], "Did someone remember to pack the marshmellows?", 6, false, true);
         }
         else if(newCardName == ecardName.OILCARD)
         {
-            CreateCard(1, ecardClass.DAMAGE, ecardElement.PHYSICAL, cardSprite, "Weakness to Fire for one Turn.\nWholesome vitamins to keep you healthy. Stay away from fire.", true, true);
+            CreateCard(1, ecardClass.DAMAGE, ecardElement.PHYSICAL, cardSpriteList[4], "Weakness to Fire for one Turn.\nWholesome vitamins to keep you healthy. Stay away from fire.", true, true);
         }
     }
 
