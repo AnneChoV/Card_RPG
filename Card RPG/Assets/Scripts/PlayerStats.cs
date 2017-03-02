@@ -5,14 +5,17 @@ using UnityEngine;
 public class PlayerStats : MonoBehaviour {
 
     public float playerHealth;
+    public float playerSpeed;
 
 	// Use this for initialization
 	void Start () {
         playerHealth = 100f;
+        playerSpeed = 10.0f;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+        Vector3 move = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);
+        transform.position += move * playerSpeed * Time.deltaTime;
 	}
 }
