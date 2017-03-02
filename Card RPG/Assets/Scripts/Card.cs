@@ -3,18 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Card : MonoBehaviour {
-    public enum ecardName
-    {
-        NONE,
-        ATTACKCARD,
-        BLOCKCARD,
-        FIRECARD,
-        HEALCARD,
-        OILCARD
-    }
 
+    //              VARIABLES:
 
-    //PUBLIC VARIABLES:
+        //Enums
     public enum ecardClass
     {
         NONE,
@@ -31,25 +23,45 @@ public class Card : MonoBehaviour {
         FIRE
     }
 
-    //not sure how to do the image. Anne Senpai?
-    public ecardName cardName;       //In general we should just be able to use this to make a card. :)
+    public enum ecardName
+    {
+        NONE,
+        ATTACKCARD,
+        BLOCKCARD,
+        FIRECARD,
+        HEALCARD,
+        OILCARD
+    }
 
-    public int tier;
+    //not sure how to do the image. Anne Senpai?
+
+
+
+;
+
+    //General variables
+    public Sprite[] cardSpriteList;
     public ecardClass cardClass;
     public ecardElement cardElement;
+    public ecardName cardName;       //In general we should just be able to use this to make a card. :)
     public Sprite cardSprite;
+    public SpriteRenderer spriteRenderer;
     public string description;
 
+    //public CombatManager combatManager; //Used to pass click infomation back up to where it's used.
+
+    //Combat Stats
+    public int tier;
     int maxDamage;  
     int minDamage;
-
     bool IsUseableShortRange;
     bool IsUseableLongRange;
 
-    public Sprite[] cardSpriteList; 
 
-    //CREATION OF A CARD - In general we will just use the name to create it.
-    void CreateCard(int newTier, ecardClass newCardClass, ecardElement newCardElement, Sprite newCardSprite, string newDescription, bool newIsUseableShortRange, bool newIsUseableLongRange)
+    //          FUNCTIONS
+    
+    //Card creators - In general we will just use the name to create it.
+    void CreateCard(int newTier, ecardClass newCardClass, ecardElement newCardElement, ecardName newCardName, Sprite newCardSprite, string newDescription, bool newIsUseableShortRange, bool newIsUseableLongRange)
     {
         tier = newTier;
         cardClass = newCardClass;
@@ -59,8 +71,11 @@ public class Card : MonoBehaviour {
         minDamage = maxDamage = 0;
         IsUseableShortRange = newIsUseableShortRange;
         IsUseableLongRange = newIsUseableLongRange;
+
+
+        spriteRenderer.sprite = cardSprite;
     }
-    void CreateCard(int newTier, ecardClass newCardClass, ecardElement newCardElement, Sprite newCardSprite, string newDescription)
+    void CreateCard(int newTier, ecardClass newCardClass, ecardElement newCardElement, ecardName newCardName, Sprite newCardSprite, string newDescription)
     {
         tier = newTier;
         cardClass = newCardClass;
@@ -68,9 +83,12 @@ public class Card : MonoBehaviour {
         cardSprite = newCardSprite;
         description = newDescription;
         minDamage = maxDamage = 0;
+
+
+        spriteRenderer.sprite = cardSprite;
     }
 
-    void CreateCard(int newTier, ecardClass newCardClass, ecardElement newCardElement, Sprite newCardSprite, string newDescription, int damage, bool newIsUseableShortRange, bool newIsUseableLongRange)
+    void CreateCard(int newTier, ecardClass newCardClass, ecardElement newCardElement, ecardName newCardName, Sprite newCardSprite, string newDescription, int damage, bool newIsUseableShortRange, bool newIsUseableLongRange)
     {
         tier = newTier;
         cardClass = newCardClass;
@@ -81,10 +99,12 @@ public class Card : MonoBehaviour {
         maxDamage = damage;
         IsUseableShortRange = newIsUseableShortRange;
         IsUseableLongRange = newIsUseableLongRange;
-        Debug.Log(cardClass + " " + cardElement + " " + cardName);
+
+        spriteRenderer.sprite = cardSprite;
+
     }
 
-    void CreateCard(int newTier, ecardClass newCardClass, ecardElement newCardElement, Sprite newCardSprite, string newDescription, int damage)
+    void CreateCard(int newTier, ecardClass newCardClass, ecardElement newCardElement, ecardName newCardName, Sprite newCardSprite, string newDescription, int damage)
     {
         tier = newTier;
         cardClass = newCardClass;
@@ -93,32 +113,32 @@ public class Card : MonoBehaviour {
         description = newDescription;
         minDamage = damage;     //For now we do specific damage anyway.
         maxDamage = damage;
+
+        spriteRenderer.sprite = cardSprite;
     }
 
     public void CreateCard(ecardName newCardName)
     {
-        Debug.Log(newCardName);
+        //combatManager = transform.parent.GetComponentInParent<CombatManager>();
         if (newCardName == ecardName.ATTACKCARD)
         {
-            Debug.Log("Boop");
-            CreateCard(1, ecardClass.DAMAGE, ecardElement.PHYSICAL, cardSpriteList[0], "Somewhere a museum is probably looking for this.", 5, true, false);
-       
+            CreateCard(1, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[0], "Somewhere a museum is probably looking for this.", 5, true, false);  
         }
         else if (newCardName == ecardName.BLOCKCARD)
         {
-            CreateCard(1, ecardClass.DAMAGE, ecardElement.PHYSICAL, cardSpriteList[1], "Staying safe is a good plan of action.", true, true);
+            CreateCard(1, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[1], "Staying safe is a good plan of action.", true, true);
         }
         else if(newCardName == ecardName.HEALCARD)
         {
-            CreateCard(1, ecardClass.DAMAGE, ecardElement.PHYSICAL, cardSpriteList[2], "A heal a day keeps the doctor away.", true, true);
+            CreateCard(1, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[2], "A heal a day keeps the doctor away.", 5, true, true);
         }
         else if (newCardName == ecardName.FIRECARD)
         {
-            CreateCard(1, ecardClass.DAMAGE, ecardElement.FIRE, cardSpriteList[3], "Did someone remember to pack the marshmellows?", 6, false, true);
+            CreateCard(1, ecardClass.DAMAGE, ecardElement.FIRE, newCardName, cardSpriteList[3], "Did someone remember to pack the marshmellows?", 6, false, true);
         }
         else if(newCardName == ecardName.OILCARD)
         {
-            CreateCard(1, ecardClass.DAMAGE, ecardElement.PHYSICAL, cardSpriteList[4], "Weakness to Fire for one Turn.\nWholesome vitamins to keep you healthy. Stay away from fire.", true, true);
+            CreateCard(1, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[4], "Weakness to Fire for one Turn.\nWholesome vitamins to keep you healthy. Stay away from fire.", true, true);
         }
     }
 
@@ -143,7 +163,6 @@ public class Card : MonoBehaviour {
     {
         cardElement = newCardElement;
     }
-
     int GetTier()
     {
         return tier;
@@ -185,8 +204,4 @@ public class Card : MonoBehaviour {
         minDamage = newMaxDamage;
         maxDamage = newMaxDamage;
     }
-
-
-
-
 }
