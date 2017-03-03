@@ -7,10 +7,16 @@ public class PlayerStats : MonoBehaviour {
     public float playerHealth;
     public float playerSpeed;
 
+    public GameObject DialogueBox;
+
+    EnemyStats enemy;
+
 	// Use this for initialization
 	void Start () {
         playerHealth = 100f;
         playerSpeed = 5.0f;
+
+        enemy = FindObjectOfType<EnemyStats>();
 	}
 	
 	// Update is called once per frame
@@ -27,5 +33,14 @@ public class PlayerStats : MonoBehaviour {
         {
             gameObject.GetComponent<SpriteRenderer>().flipX = false;
         }
+
+        if (Input.GetKeyDown("t"))
+        {
+            if(enemy.colWithPlayer == true)
+            {
+                DialogueBox.SetActive(true);
+            }
+        }
     }
+
 }
