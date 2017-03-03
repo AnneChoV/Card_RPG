@@ -8,7 +8,6 @@ public class GameManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         Debug.Log(GameObject.FindGameObjectWithTag("Player").transform.position);
-        Debug.Log(FindObjectOfType<Player>().health);
     }
 	
 	// Update is called once per frame

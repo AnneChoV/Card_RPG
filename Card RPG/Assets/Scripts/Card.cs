@@ -52,10 +52,10 @@ public class Card : MonoBehaviour {
 
     //Combat Stats
     public int tier;
-    int maxDamage;  
-    int minDamage;
-    bool IsUseableShortRange;
-    bool IsUseableLongRange;
+    public int maxDamage;  
+    public int minDamage;
+    public bool IsUseableShortRange;
+    public bool IsUseableLongRange;
 
 
     //          FUNCTIONS
@@ -71,6 +71,7 @@ public class Card : MonoBehaviour {
         minDamage = maxDamage = 0;
         IsUseableShortRange = newIsUseableShortRange;
         IsUseableLongRange = newIsUseableLongRange;
+        cardName = newCardName;
 
 
         spriteRenderer.sprite = cardSprite;
@@ -83,6 +84,7 @@ public class Card : MonoBehaviour {
         cardSprite = newCardSprite;
         description = newDescription;
         minDamage = maxDamage = 0;
+        cardName = newCardName;
 
 
         spriteRenderer.sprite = cardSprite;
@@ -99,6 +101,7 @@ public class Card : MonoBehaviour {
         maxDamage = damage;
         IsUseableShortRange = newIsUseableShortRange;
         IsUseableLongRange = newIsUseableLongRange;
+        cardName = newCardName;
 
         spriteRenderer.sprite = cardSprite;
 
@@ -113,6 +116,7 @@ public class Card : MonoBehaviour {
         description = newDescription;
         minDamage = damage;     //For now we do specific damage anyway.
         maxDamage = damage;
+        cardName = newCardName;
 
         spriteRenderer.sprite = cardSprite;
     }
@@ -126,11 +130,11 @@ public class Card : MonoBehaviour {
         }
         else if (newCardName == ecardName.BLOCKCARD)
         {
-            CreateCard(1, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[1], "Staying safe is a good plan of action.", true, true);
+            CreateCard(1, ecardClass.BLOCK, ecardElement.PHYSICAL, newCardName, cardSpriteList[1], "Staying safe is a good plan of action.", true, true);
         }
         else if(newCardName == ecardName.HEALCARD)
         {
-            CreateCard(1, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[2], "A heal a day keeps the doctor away.", 5, true, true);
+            CreateCard(1, ecardClass.HEAL, ecardElement.PHYSICAL, newCardName, cardSpriteList[2], "A heal a day keeps the doctor away.", 5, true, true);
         }
         else if (newCardName == ecardName.FIRECARD)
         {
@@ -138,7 +142,7 @@ public class Card : MonoBehaviour {
         }
         else if(newCardName == ecardName.OILCARD)
         {
-            CreateCard(1, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[4], "Weakness to Fire for one Turn.\nWholesome vitamins to keep you healthy. Stay away from fire.", true, true);
+            CreateCard(1, ecardClass.NEXTTURNBOOST, ecardElement.PHYSICAL, newCardName, cardSpriteList[4], "Weakness to Fire for one Turn.\nWholesome vitamins to keep you healthy. Stay away from fire.", true, true);
         }
     }
 
