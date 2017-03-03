@@ -241,7 +241,6 @@ public class CombatManager : MonoBehaviour {
                 playerEnergyText.text = "Player Energy%: " + player.currentEnergy;
                 player.timeUntilNextEnergy = player.timeRequiredForEnergyRegen;
             }
-
         }
     }
 
