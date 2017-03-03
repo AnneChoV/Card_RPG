@@ -1,16 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-<<<<<<< HEAD
-=======
 using UnityEngine.SceneManagement;
->>>>>>> ArtBranch
+
 
 public class GameManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-<<<<<<< HEAD
+
 		
 	}
 	
@@ -29,15 +27,11 @@ public class GameManager : MonoBehaviour {
             Debug.Log("Hit Enemy!");
             Debug.Log(FindObjectOfType<EnemyStats>().enemyHealth);
         }
-	}
-=======
+	
+
         Debug.Log(GameObject.FindGameObjectWithTag("Player").transform.position);
         Debug.Log(FindObjectOfType<Player>().health);
     }
 	
-	// Update is called once per frame
-	void Update () {
 
-    }
->>>>>>> ArtBranch
 }
