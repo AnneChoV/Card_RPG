@@ -59,7 +59,11 @@ public class Card : MonoBehaviour {
 
 
     //          FUNCTIONS
-    
+    private void Start()
+    {
+        //spriteRenderer.sprite = cardSprite;
+    }
+
     //Card creators - In general we will just use the name to create it.
     void CreateCard(int newTier, ecardClass newCardClass, ecardElement newCardElement, ecardName newCardName, Sprite newCardSprite, string newDescription, bool newIsUseableShortRange, bool newIsUseableLongRange)
     {
@@ -74,7 +78,7 @@ public class Card : MonoBehaviour {
         cardName = newCardName;
 
 
-        spriteRenderer.sprite = cardSprite;
+        //spriteRenderer.sprite = cardSprite;
     }
     void CreateCard(int newTier, ecardClass newCardClass, ecardElement newCardElement, ecardName newCardName, Sprite newCardSprite, string newDescription)
     {
@@ -87,7 +91,7 @@ public class Card : MonoBehaviour {
         cardName = newCardName;
 
 
-        spriteRenderer.sprite = cardSprite;
+        //spriteRenderer.sprite = cardSprite;
     }
 
     void CreateCard(int newTier, ecardClass newCardClass, ecardElement newCardElement, ecardName newCardName, Sprite newCardSprite, string newDescription, int damage, bool newIsUseableShortRange, bool newIsUseableLongRange)
@@ -103,7 +107,7 @@ public class Card : MonoBehaviour {
         IsUseableLongRange = newIsUseableLongRange;
         cardName = newCardName;
 
-        spriteRenderer.sprite = cardSprite;
+       // spriteRenderer.sprite = cardSprite;
 
     }
 
@@ -118,12 +122,11 @@ public class Card : MonoBehaviour {
         maxDamage = damage;
         cardName = newCardName;
 
-        spriteRenderer.sprite = cardSprite;
+        //spriteRenderer.sprite = cardSprite;
     }
 
     public void CreateCard(ecardName newCardName)
     {
-        //combatManager = transform.parent.GetComponentInParent<CombatManager>();
         if (newCardName == ecardName.ATTACKCARD)
         {
             CreateCard(1, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[0], "Somewhere a museum is probably looking for this.", 5, true, false);  

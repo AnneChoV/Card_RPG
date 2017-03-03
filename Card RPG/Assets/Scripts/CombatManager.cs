@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class CombatManager : MonoBehaviour {
-    //Current To Do: Get cards to negate energy
+    //Current To Do: Get cards to negate energy. YEEE
     //Then make cards createable within unity using picture sprites.
     //Then you can highlight useable cards etc so you can see when you can use them easier.
 
@@ -21,6 +21,7 @@ public class CombatManager : MonoBehaviour {
     public Card currentlySelectedCard;
 
     //UI Stuff
+    public Canvas UICanvas;
     public Text playerHpText;
     public Text enemyHpText;
     public Text playerEnergyText;
@@ -31,7 +32,6 @@ public class CombatManager : MonoBehaviour {
         SetPlayerAndEnemyHp();
         SetUpCards();
     }	
-
 	void Update ()
     {
         ProcessClicking();
@@ -74,7 +74,6 @@ public class CombatManager : MonoBehaviour {
             DeselectCard();
         }
     }
-
     void ProcessTimeEvents()
     {
         ProcessEnemyTurns();
@@ -229,7 +228,6 @@ public class CombatManager : MonoBehaviour {
             }
         }
     }
-
     void ProcessPlayerEnergy()
     {
         if (player.currentEnergy < 100)
@@ -257,8 +255,9 @@ public class CombatManager : MonoBehaviour {
 
         for (int x = 0; x < 4; x++)
         { 
-            GameObject currentCard = Instantiate(cardPrefab, new Vector3(-4.0f + x * 2, -3.5f, 0.0f), Quaternion.identity, transform) as GameObject;
+            GameObject currentCard = Instantiate(cardPrefab, new Vector3(-4.0f + x * 2, -3.5f, 0.0f), Quaternion.identity, UICanvas.transform) as GameObject;
             Card currentCardClass = currentCard.GetComponent<Card>();
+            currentCard.transform.position = new Vector3(0.0f, 0.0f, 0.0f);
             cardHand.Add(currentCardClass);
 
             //Turn it into a random card from the players deck and give it stats
