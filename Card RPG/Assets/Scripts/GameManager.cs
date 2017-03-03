@@ -17,20 +17,12 @@ public class GameManager : MonoBehaviour {
 		if(Input.GetKeyDown("o"))
         {
             FindObjectOfType<PlayerStats>().playerHealth -= 10.0f;
-            Debug.Log("Hit Player!");
-            Debug.Log(FindObjectOfType<PlayerStats>().playerHealth);
         }
 
         if(Input.GetKeyDown("p"))
         {
             FindObjectOfType<EnemyStats>().enemyHealth -= 10.0f;
-            Debug.Log("Hit Enemy!");
-            Debug.Log(FindObjectOfType<EnemyStats>().enemyHealth);
         }
-	
-
-        Debug.Log(GameObject.FindGameObjectWithTag("Player").transform.position);
-        Debug.Log(FindObjectOfType<Player>().health);
     }
 	
 
