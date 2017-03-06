@@ -12,10 +12,11 @@ public class EnemyStats : MonoBehaviour {
     public Transform target; // enemy target point
 
     public bool colWithPlayer;
+    
 
     private void Awake()
     {
-        //myTransform = transform;
+        myTransform = transform;
     }
 
     // Use this for initialization
@@ -30,11 +31,11 @@ public class EnemyStats : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
         transform.LookAt(target);
+
         transform.Rotate(new Vector3(0, -90, 0), Space.Self);
         //myTransform.rotation = Quaternion.Slerp(myTransform.rotation, Quaternion.LookRotation(target.position - myTransform.position), enemyRotationSpeed * Time.deltaTime);
-        //myTransform.position += myTransform.forward * enemyMovementSpeed * Time.deltaTime;
+       //myTransform.position += myTransform.forward * enemyMovementSpeed * Time.deltaTime;
 
         if (Vector3.Distance(transform.position, target.position) > 1.0f && colWithPlayer != true)
         {
@@ -48,6 +49,7 @@ public class EnemyStats : MonoBehaviour {
         if (collision.gameObject.tag == "Player")
         {
             colWithPlayer = true;
+            transform.Find("Button").gameObject.SetActive(true);
         }
     }
 
@@ -56,6 +58,7 @@ public class EnemyStats : MonoBehaviour {
         if (collision.gameObject.tag == "Player")
         {
             colWithPlayer = false;
+            transform.Find("Button").gameObject.SetActive(false);
         }
     }
 }
