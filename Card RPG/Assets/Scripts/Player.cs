@@ -5,13 +5,25 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour {
 
-    public float health;
+    //Loading variables
     public Vector3 myTransform;
-
     public static Player instance = null;
 
+    //Combat Stats
+    public int playerHealth;
+    public float timeRequiredForEnergyRegen;   
+    public float timeUntilNextEnergy;
+
+    public bool isBlocking;
+    public int nextTurnFireDamageMultiplier;
+    public int nextTurnPhysicalDamageMultiplier;
+    public List<Card.ecardName> currentDeck;
+    public List<Card.ecardName> availableCards;   //Later when we unlock cards we'll collect them here.
+
+    public int currentEnergy;
+
     private void Awake()
-    {
+    { 
         // Don't destroy on load
         if (instance == null)
         {
@@ -27,9 +39,8 @@ public class Player : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        health = 100.0f;
         Debug.Log("Starto");
-	}
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -38,5 +49,19 @@ public class Player : MonoBehaviour {
         {
             myTransform = GameObject.FindGameObjectWithTag("Player").transform.position;
         }
+    }
+
+    public void PlayerTakenDamage(int damage)
+    {
+        playerHealth -= damage;
+    }
+
+    //START FUNCTIONS
+    private void InitializeCombatStats()
+    {
+        playerHealth = 100;
+        nextTurnFireDamageMultiplier = 1;
+        nextTurnPhysicalDamageMultiplier = 1;
+        currentEnergy = 0;
     }
 }
