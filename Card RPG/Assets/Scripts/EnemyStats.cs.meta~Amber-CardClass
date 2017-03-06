@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+<<<<<<< HEAD:Card RPG/Assets/Scripts/GameManager.cs.meta
+<<<<<<< HEAD
+guid: fc20148fb1280844f95eab11beb345f3
+timeCreated: 1488400407
+=======
+guid: ac3c1e2a881cc4647bbb1e4685f072fb
+timeCreated: 1488407599
+>>>>>>> ArtBranch
+=======
+guid: d3e89b3babe3df64d979a583213782db
+timeCreated: 1488400381
+>>>>>>> Amber-CardClass:Card RPG/Assets/Scripts/EnemyStats.cs.meta
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
