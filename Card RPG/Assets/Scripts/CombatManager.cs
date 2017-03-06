@@ -34,46 +34,10 @@ public class CombatManager : MonoBehaviour {
     }	
 	void Update ()
     {
-        ProcessClicking();
-        ProcessRayCasting();    //If we have frame issues, probably change this first.
         ProcessTimeEvents();
     }
-
-
-    //  ON UPDATE FUNCTIONS
-    void ProcessClicking()
-    {
-        //MOUSE INPUT (raycasting to gameobjects).
-        if (Input.GetMouseButtonDown(0))
-        {
-            if (currentlySelectedCard != null) 
-            {
-                //currentlySelectedCard.transform.localPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);  //Wanted to be able to drag. Will ask bf later :<
-                ProcessPlayerCardUsing();
-            }
-        }
-    }
-    void ProcessRayCasting()
-    {
-        RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-
-        if (hit.collider != null)   //If we hit something
-        {
-            // Card Selection
-            if (hit.collider.gameObject.name == "Card(Clone)")
-            {
-                SelectCard(hit.collider.gameObject.GetComponent<Card>());
-            }
-            else
-            {
-                DeselectCard();
-            }
-        }
-        else //If nothing hit by mouse raycast
-        {
-            DeselectCard();
-        }
-    }
+ 
+    //ON UPDATE FUNCTIONS:
     void ProcessTimeEvents()
     {
         ProcessEnemyTurns();
@@ -82,7 +46,7 @@ public class CombatManager : MonoBehaviour {
 
     //  ON UPDATE HELPER FUNCTIONS
         //Process Clicking functions:
-    void ProcessPlayerCardUsing()
+    public void ProcessPlayerCardUsing()
     {
         if (currentlySelectedCard.tier * 33 < player.currentEnergy) //if we have the energy to use the card
         {
@@ -151,7 +115,7 @@ public class CombatManager : MonoBehaviour {
         return availableCards[cardChosen];
     }
 
-        //Process RayCasting Functions:
+       
     void SelectCard(Card selectedCard)
     {
         if (currentlySelectedCard != null)
@@ -253,11 +217,18 @@ public class CombatManager : MonoBehaviour {
     {
         cardHand = new List<Card>();
 
+        //65 88
+
         for (int x = 0; x < 4; x++)
-        { 
+        {
             GameObject currentCard = Instantiate(cardPrefab, new Vector3(-4.0f + x * 2, -3.5f, 0.0f), Quaternion.identity, UICanvas.transform) as GameObject;
             Card currentCardClass = currentCard.GetComponent<Card>();
-            currentCard.transform.position = new Vector3(0.0f, 0.0f, 0.0f);
+            RectTransform currentCardRT = (RectTransform)currentCard.transform;
+            currentCard.transform.localScale = new Vector3(2.0f, 2.0f, 2.0f);
+            currentCardRT.anchoredPosition = new Vector3(-400.0f + x * 150, -200.0f, 0.0f);
+
+            currentCardClass.combatManager = this;
+
             cardHand.Add(currentCardClass);
 
             //Turn it into a random card from the players deck and give it stats

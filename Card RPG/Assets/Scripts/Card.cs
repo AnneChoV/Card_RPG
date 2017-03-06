@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using UnityEngine.UI;
+
 public class Card : MonoBehaviour {
 
     //              VARIABLES:
@@ -48,7 +50,14 @@ public class Card : MonoBehaviour {
     public SpriteRenderer spriteRenderer;
     public string description;
 
-    //public CombatManager combatManager; //Used to pass click infomation back up to where it's used.
+    public Text tCardName;
+    public Image iCardImage;
+    public Text tCardElement;
+    public Text tCardDescription;
+    public Text tCardTier;
+    public Text tCardDamage;
+
+    public CombatManager combatManager; //Used to pass click infomation back up to where it's used.
 
     //Combat Stats
     public int tier;
@@ -56,7 +65,6 @@ public class Card : MonoBehaviour {
     public int minDamage;
     public bool IsUseableShortRange;
     public bool IsUseableLongRange;
-
 
     //          FUNCTIONS
     private void Start()
@@ -77,7 +85,12 @@ public class Card : MonoBehaviour {
         IsUseableLongRange = newIsUseableLongRange;
         cardName = newCardName;
 
-
+       // tCardName.text = cardName.ToString();
+      //  tCardDescription.text = newDescription;
+       // tCardElement.text = newCardElement.ToString();
+      //  tCardTier.text = newTier.ToString();
+      //  cardSprite = newCardSprite;
+      //  tCardDamage.text = null;
         //spriteRenderer.sprite = cardSprite;
     }
     void CreateCard(int newTier, ecardClass newCardClass, ecardElement newCardElement, ecardName newCardName, Sprite newCardSprite, string newDescription)
@@ -90,8 +103,13 @@ public class Card : MonoBehaviour {
         minDamage = maxDamage = 0;
         cardName = newCardName;
 
-
-        //spriteRenderer.sprite = cardSprite;
+      //  tCardName.text = cardName.ToString();
+      //  tCardDescription.text = newDescription;
+      //  tCardElement.text = newCardElement.ToString();
+      //  tCardTier.text = newTier.ToString();
+      ////  cardSprite = newCardSprite;
+      //  tCardDamage.text = null;
+      //  //spriteRenderer.sprite = cardSprite;
     }
 
     void CreateCard(int newTier, ecardClass newCardClass, ecardElement newCardElement, ecardName newCardName, Sprite newCardSprite, string newDescription, int damage, bool newIsUseableShortRange, bool newIsUseableLongRange)
@@ -107,7 +125,13 @@ public class Card : MonoBehaviour {
         IsUseableLongRange = newIsUseableLongRange;
         cardName = newCardName;
 
-       // spriteRenderer.sprite = cardSprite;
+        tCardName.text = newCardName.ToString();
+        //tCardDamage.text = damage.ToString();
+        //tCardDescription.text = newDescription;
+        //tCardElement.text = newCardElement.ToString();
+        //tCardTier.text = newTier.ToString();
+        //   cardSprite = newCardSprite;
+        // spriteRenderer.sprite = cardSprite;
 
     }
 
@@ -121,7 +145,12 @@ public class Card : MonoBehaviour {
         minDamage = damage;     //For now we do specific damage anyway.
         maxDamage = damage;
         cardName = newCardName;
-
+        //tCardName.text = cardName.ToString();
+        //tCardDamage.text = damage.ToString();
+        //tCardDescription.text = newDescription;
+        //tCardElement.text = newCardElement.ToString();
+        //tCardTier.text = newTier.ToString();
+    //    cardSprite = newCardSprite;
         //spriteRenderer.sprite = cardSprite;
     }
 
@@ -149,6 +178,21 @@ public class Card : MonoBehaviour {
         }
     }
 
+    //These Three Functions Depend on EventTrigger in the cards.
+    public void onCursorEnter()
+    {
+        combatManager.currentlySelectedCard = this;
+    }
+
+    public void onCursorClick()
+    {
+        combatManager.ProcessPlayerCardUsing();
+    }
+
+    public void onCursorExit()
+    {
+        combatManager.currentlySelectedCard = null;
+    }
 
     //GETTERS AND SETTERS
     ecardClass GetCardClass()
