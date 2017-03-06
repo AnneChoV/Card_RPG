@@ -32,4 +32,29 @@ public class SceneChanger : MonoBehaviour
         Scene scene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(scene.name);
     }
+
+    public void ContinueButton()
+    {
+        SceneLoad("Test_Map");
+    }
+
+    public void NewButton()
+    {
+
+    }
+
+    public void LoadButton()
+    {
+
+    }
+
+    public void OptionsButton()
+    {
+
+    }
+
+    public void ExitButton()
+    {
+        Application.Quit();
+    }
 }

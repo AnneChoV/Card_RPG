@@ -11,12 +11,14 @@ public class PlayerStats : MonoBehaviour {
 
     EnemyStats enemy;
 
+    SceneChanger sceneChanger;
 	// Use this for initialization
 	void Start () {
         playerHealth = 100f;
         playerSpeed = 5.0f;
 
         enemy = FindObjectOfType<EnemyStats>();
+        sceneChanger = FindObjectOfType<SceneChanger>();
 	}
 	
 	// Update is called once per frame
@@ -39,6 +41,14 @@ public class PlayerStats : MonoBehaviour {
             if(enemy.colWithPlayer == true)
             {
                 DialogueBox.SetActive(true);
+            }
+        }
+
+        if (Input.GetKeyDown("b"))
+        {
+            if (enemy.colWithPlayer == true)
+            {
+                sceneChanger.SceneLoad("Test_Combat");
             }
         }
     }

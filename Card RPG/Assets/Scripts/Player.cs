@@ -45,7 +45,7 @@ public class Player : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         Scene currentScene = SceneManager.GetActiveScene();
-        if (currentScene.name != "Test_Combat")
+        if (currentScene.name != "Test_Combat" && currentScene.name != "Main Menu")
         {
             myTransform = GameObject.FindGameObjectWithTag("Player").transform.position;
         }

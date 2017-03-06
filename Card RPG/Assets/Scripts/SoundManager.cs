@@ -20,6 +20,11 @@ public class SoundManager : MonoBehaviour
     // Use this for initialization
     void Awake()
     {
+        if (SceneManager.GetActiveScene().name == "Main Menu")
+        {
+            selectedTheme = mainTheme;
+        }
+
         if (SceneManager.GetActiveScene().name == "Test_Map")
         {
             selectedTheme = mainTheme;
@@ -68,6 +73,11 @@ public class SoundManager : MonoBehaviour
 
     public void playTheme(string sceneName)
     {
+        if (SceneManager.GetActiveScene().name == "Main Menu")
+        {
+            selectedTheme = mainTheme;
+        }
+
         if (sceneName == "Test_Map")
         {
             themeSource.Stop();
@@ -76,7 +86,7 @@ public class SoundManager : MonoBehaviour
             Debug.Log("Map");
         }
 
-        if (sceneName == "Not not Combat Scene")
+        if (sceneName == "Test_Combat")
         {
             themeSource.Stop();
             selectedTheme = battleTheme;
