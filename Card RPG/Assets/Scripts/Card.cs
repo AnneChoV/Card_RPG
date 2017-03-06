@@ -28,18 +28,30 @@ public class Card : MonoBehaviour {
     public enum ecardName
     {
         NONE,
-        ATTACKCARD,
-        BLOCKCARD,
-        FIRECARD,
-        HEALCARD,
-        OILCARD
+        BLOCK,
+        FIRE,
+        POTION,
+        OIL,
+        DAGGERSTABI,
+        DAGGERSTABII,
+        DAGGERSTABIII,
+        SWORDSLASHI,
+        SWORDSLASHII,
+        SWORDSLASHIII,
+        MACESMASHI,
+        MACESMASHII,
+        MACESMASHIII,
+        THROWI,
+        THROWII,
+        THROWIII,
+        SHOOTI,
+        SHOOTII,
+        SHOOTIII,
+        CATAPULTI,
+        CATAPULTII,
+        CATAPULTIII
     }
 
-    //not sure how to do the image. Anne Senpai?
-
-
-
-;
 
     //General variables
     public Sprite[] cardSpriteList;
@@ -85,12 +97,12 @@ public class Card : MonoBehaviour {
         IsUseableLongRange = newIsUseableLongRange;
         cardName = newCardName;
 
-       // tCardName.text = cardName.ToString();
-      //  tCardDescription.text = newDescription;
-       // tCardElement.text = newCardElement.ToString();
-      //  tCardTier.text = newTier.ToString();
-      //  cardSprite = newCardSprite;
-      //  tCardDamage.text = null;
+        tCardName.text = cardName.ToString();
+        tCardDescription.text = newDescription;
+        tCardElement.text = newCardElement.ToString();
+        tCardTier.text = newTier.ToString();
+        //cardSprite = newCardSprite;
+        tCardDamage.text = null;
         //spriteRenderer.sprite = cardSprite;
     }
     void CreateCard(int newTier, ecardClass newCardClass, ecardElement newCardElement, ecardName newCardName, Sprite newCardSprite, string newDescription)
@@ -103,78 +115,146 @@ public class Card : MonoBehaviour {
         minDamage = maxDamage = 0;
         cardName = newCardName;
 
-      //  tCardName.text = cardName.ToString();
-      //  tCardDescription.text = newDescription;
-      //  tCardElement.text = newCardElement.ToString();
-      //  tCardTier.text = newTier.ToString();
-      ////  cardSprite = newCardSprite;
-      //  tCardDamage.text = null;
-      //  //spriteRenderer.sprite = cardSprite;
+        tCardName.text = cardName.ToString();
+        tCardDescription.text = newDescription;
+        tCardElement.text = newCardElement.ToString();
+        tCardTier.text = newTier.ToString();
+        //  cardSprite = newCardSprite;
+
+        //  //spriteRenderer.sprite = cardSprite;
     }
 
-    void CreateCard(int newTier, ecardClass newCardClass, ecardElement newCardElement, ecardName newCardName, Sprite newCardSprite, string newDescription, int damage, bool newIsUseableShortRange, bool newIsUseableLongRange)
+    void CreateCard(int newTier, ecardClass newCardClass, ecardElement newCardElement, ecardName newCardName, Sprite newCardSprite, string newDescription, int newMinDamage, int newMaxDamage, bool newIsUseableShortRange, bool newIsUseableLongRange)
     {
         tier = newTier;
         cardClass = newCardClass;
         cardElement = newCardElement;
         cardSprite = newCardSprite;
         description = newDescription;
-        minDamage = damage;     //For now we do specific damage anyway.
-        maxDamage = damage;
+        minDamage = newMinDamage;     //For now we do specific damage anyway.
+        maxDamage = newMaxDamage;
         IsUseableShortRange = newIsUseableShortRange;
         IsUseableLongRange = newIsUseableLongRange;
         cardName = newCardName;
 
         tCardName.text = newCardName.ToString();
-        //tCardDamage.text = damage.ToString();
-        //tCardDescription.text = newDescription;
-        //tCardElement.text = newCardElement.ToString();
-        //tCardTier.text = newTier.ToString();
-        //   cardSprite = newCardSprite;
+        tCardDamage.text = newMinDamage.ToString();
+        tCardDescription.text = newDescription;
+        tCardElement.text = newCardElement.ToString();
+        tCardTier.text = newTier.ToString();
+        cardSprite = newCardSprite;
         // spriteRenderer.sprite = cardSprite;
 
     }
 
-    void CreateCard(int newTier, ecardClass newCardClass, ecardElement newCardElement, ecardName newCardName, Sprite newCardSprite, string newDescription, int damage)
+    void CreateCard(int newTier, ecardClass newCardClass, ecardElement newCardElement, ecardName newCardName, Sprite newCardSprite, string newDescription, int newMinDamage, int newMaxDamage)
     {
         tier = newTier;
         cardClass = newCardClass;
         cardElement = newCardElement;
         cardSprite = newCardSprite;
         description = newDescription;
-        minDamage = damage;     //For now we do specific damage anyway.
-        maxDamage = damage;
+        minDamage = newMinDamage;     //For now we do specific damage anyway.
+        maxDamage = newMaxDamage;
         cardName = newCardName;
-        //tCardName.text = cardName.ToString();
-        //tCardDamage.text = damage.ToString();
-        //tCardDescription.text = newDescription;
-        //tCardElement.text = newCardElement.ToString();
-        //tCardTier.text = newTier.ToString();
-    //    cardSprite = newCardSprite;
+        tCardName.text = cardName.ToString();
+        tCardDamage.text = newMinDamage.ToString();
+        tCardDescription.text = newDescription;
+        tCardElement.text = newCardElement.ToString();
+        tCardTier.text = newTier.ToString();
+        //    cardSprite = newCardSprite;
         //spriteRenderer.sprite = cardSprite;
     }
 
-    public void CreateCard(ecardName newCardName)
+    public void CreateCard(ecardName newCardName)   //SRS BALANCE ISSUES.
     {
-        if (newCardName == ecardName.ATTACKCARD)
+        if (newCardName == ecardName.BLOCK)
         {
-            CreateCard(1, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[0], "Somewhere a museum is probably looking for this.", 5, true, false);  
+            CreateCard(1, ecardClass.BLOCK, ecardElement.PHYSICAL, newCardName, cardSpriteList[0], "Staying safe is a good plan of action.", true, true);
         }
-        else if (newCardName == ecardName.BLOCKCARD)
+        else if(newCardName == ecardName.POTION)
         {
-            CreateCard(1, ecardClass.BLOCK, ecardElement.PHYSICAL, newCardName, cardSpriteList[1], "Staying safe is a good plan of action.", true, true);
+            CreateCard(1, ecardClass.HEAL, ecardElement.PHYSICAL, newCardName, cardSpriteList[1], "A heal a day keeps the doctor away.", 4, 4, true, true);
         }
-        else if(newCardName == ecardName.HEALCARD)
+        else if (newCardName == ecardName.FIRE)
         {
-            CreateCard(1, ecardClass.HEAL, ecardElement.PHYSICAL, newCardName, cardSpriteList[2], "A heal a day keeps the doctor away.", 5, true, true);
+            CreateCard(1, ecardClass.DAMAGE, ecardElement.FIRE, newCardName, cardSpriteList[2], "Did someone remember to pack the marshmellows?", 1, 1, true, true);
         }
-        else if (newCardName == ecardName.FIRECARD)
+        else if(newCardName == ecardName.OIL)
         {
-            CreateCard(1, ecardClass.DAMAGE, ecardElement.FIRE, newCardName, cardSpriteList[3], "Did someone remember to pack the marshmellows?", 6, false, true);
+            CreateCard(1, ecardClass.NEXTTURNBOOST, ecardElement.PHYSICAL, newCardName, cardSpriteList[3], "Weakness to Fire for one Turn.\nWholesome vitamins to keep you healthy. Stay away from fire.", true, true);
         }
-        else if(newCardName == ecardName.OILCARD)
+        else if (newCardName == ecardName.DAGGERSTABI)
         {
-            CreateCard(1, ecardClass.NEXTTURNBOOST, ecardElement.PHYSICAL, newCardName, cardSpriteList[4], "Weakness to Fire for one Turn.\nWholesome vitamins to keep you healthy. Stay away from fire.", true, true);
+            CreateCard(1, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[4], "Description needed", 1, 1, true, false);
+        }
+        else if (newCardName == ecardName.DAGGERSTABII)
+        {
+            CreateCard(2, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[5], "Description needed", 2, 2, true, false);
+        }
+        else if (newCardName == ecardName.DAGGERSTABIII)
+        {
+            CreateCard(3, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[6], "Description needed", 3, 3, true, false);
+        }
+        else if (newCardName == ecardName.SWORDSLASHI)
+        {
+            CreateCard(1, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[7], "Description needed", 1, 2, true, false);
+        }
+        else if (newCardName == ecardName.SWORDSLASHII)
+        {
+            CreateCard(2, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[8], "Description needed", 1, 3, true, false);
+        }
+        else if (newCardName == ecardName.SWORDSLASHIII)
+        {
+            CreateCard(3, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[9], "Description needed", 2, 4, true, false);
+        }
+        else if (newCardName == ecardName.MACESMASHI)
+        {
+            CreateCard(1, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[10], "Description needed", 2, 3, true, false);
+        }
+        else if (newCardName == ecardName.MACESMASHII)
+        {
+            CreateCard(1, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[11], "Description needed", 2, 4, true, false);
+        }
+        else if (newCardName == ecardName.MACESMASHIII)
+        {
+            CreateCard(1, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[12], "Description needed", 3, 5, true, false);
+        }
+        else if (newCardName == ecardName.THROWI)
+        {
+            CreateCard(1, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[13], "Description needed", 1, 1, false, true);
+        }
+        else if (newCardName == ecardName.THROWII)
+        {
+            CreateCard(2, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[14], "Description needed", 2, 2, false, true);
+        }
+        else if (newCardName == ecardName.THROWIII)
+        {
+            CreateCard(3, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[15], "Description needed", 3, 3, false, true);
+        }
+        else if (newCardName == ecardName.SHOOTI)
+        {
+            CreateCard(1, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[16], "Description needed", 1, 2, false, true);
+        }
+        else if (newCardName == ecardName.SHOOTII)
+        {
+            CreateCard(2, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[17], "Description needed", 1, 3, false, true);
+        }
+        else if (newCardName == ecardName.SHOOTIII)
+        {
+            CreateCard(3, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[18], "Description needed", 2, 4, false, true);
+        }
+        else if (newCardName == ecardName.CATAPULTI)
+        {
+            CreateCard(1, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[19], "Description needed", 2, 3, false, true);
+        }
+        else if (newCardName == ecardName.CATAPULTII)
+        {
+            CreateCard(2, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[20], "Description needed", 2, 4, false, true);
+        }
+        else if (newCardName == ecardName.CATAPULTIII)
+        {
+            CreateCard(3, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[21], "Description needed", 3, 5, false, true);
         }
     }
 

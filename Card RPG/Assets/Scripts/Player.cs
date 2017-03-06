@@ -17,6 +17,7 @@ public class Player : MonoBehaviour {
     public bool isBlocking;
     public int nextTurnFireDamageMultiplier;
     public int nextTurnPhysicalDamageMultiplier;
+    public bool isInFrontLine;
     public List<Card.ecardName> currentDeck;
     public List<Card.ecardName> availableCards;   //Later when we unlock cards we'll collect them here.
 
@@ -59,7 +60,6 @@ public class Player : MonoBehaviour {
     //START FUNCTIONS
     private void InitializeCombatStats()
     {
-        playerHealth = 100;
         nextTurnFireDamageMultiplier = 1;
         nextTurnPhysicalDamageMultiplier = 1;
         currentEnergy = 0;
