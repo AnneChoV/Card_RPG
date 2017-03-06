@@ -1,6 +1,10 @@
 fileFormatVersion: 2
 guid: 78396e1b4b736ca4b9b83731456cd0df
+<<<<<<< HEAD
 timeCreated: 1488511278
+=======
+timeCreated: 1488510270
+>>>>>>> ArtBranch
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName: {}
@@ -39,7 +43,11 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
+<<<<<<< HEAD
   spriteBorder: {x: 8, y: 8, z: 8, w: 8}
+=======
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+>>>>>>> ArtBranch
   spritePixelsToUnits: 32
   alphaUsage: 1
   alphaIsTransparency: 1
