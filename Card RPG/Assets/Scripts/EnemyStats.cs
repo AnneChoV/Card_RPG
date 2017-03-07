@@ -14,6 +14,8 @@ public class EnemyStats : MonoBehaviour {
     public bool colWithPlayer;
     SpriteRenderer spriteRenderer;
 
+    private float minX, maxX, minY, maxY;
+
     private void Awake()
     {
         myTransform = transform;
@@ -26,23 +28,37 @@ public class EnemyStats : MonoBehaviour {
         enemyMovementSpeed = 3.0f;
         enemyRotationSpeed = 3.0f;
 
+        //float camDistance = Vector3.Distance(transform.position, Camera.main.transform.position);
+        //Vector2 bottomCorner = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, camDistance));
+        //Vector2 topCorner = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, camDistance));
+
+        //minX = bottomCorner.x;
+        //maxX = topCorner.x;
+        //minY = bottomCorner.y;
+        //maxY = topCorner.y;
+
         target = GameObject.FindGameObjectWithTag("Player").transform; // Find player
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 	
 	// Update is called once per frame
 	void Update () {
-        //transform.LookAt(target);
 
-        //transform.Rotate(new Vector3(0, -90, 0), Space.Self);
-        //myTransform.rotation = Quaternion.Slerp(myTransform.rotation, Quaternion.LookRotation(target.position - myTransform.position), enemyRotationSpeed * Time.deltaTime);
-       //myTransform.position += myTransform.forward * enemyMovementSpeed * Time.deltaTime;
+        // Get current position
+        Vector3 pos = transform.position;
 
+        // Horizontal contraint
+        if (pos.x < minX) pos.x = minX;
+        if (pos.x > maxX) pos.x = maxX;
 
+        // vertical contraint
+        if (pos.y < minY) pos.y = minY;
+        if (pos.y > maxY) pos.y = maxY;
 
-            //transform.Translate(new Vector3(enemyMovementSpeed * Time.deltaTime, 0, 0));
-            GoToTarget();
-        
+        // Update position
+        transform.position = pos;
+
+        GoToTarget();        
     }
 
 

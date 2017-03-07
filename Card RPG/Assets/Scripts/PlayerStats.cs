@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerStats : MonoBehaviour {
 
+    private float minX, maxX, minY, maxY;
+
     public float playerHealth;
     public float playerSpeed;
 
@@ -17,12 +19,37 @@ public class PlayerStats : MonoBehaviour {
         playerHealth = 100f;
         playerSpeed = 5.0f;
 
+        float camDistance = Vector3.Distance(transform.position, Camera.main.transform.position);
+        Vector2 bottomCorner = Camera.main.ViewportToWorldPoint(new Vector3(-0.24f, -1.4f, camDistance));
+        Vector2 topCorner = Camera.main.ViewportToWorldPoint(new Vector3(1.85f, 2.35f, camDistance));
+
+        minX = bottomCorner.x;
+        maxX = topCorner.x;
+        minY = bottomCorner.y;
+        maxY = topCorner.y;
+
         enemy = FindObjectOfType<EnemyStats>();
         sceneChanger = FindObjectOfType<SceneChanger>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
+
+        // Get current position
+        Vector3 pos = transform.position;
+
+        // Horizontal contraint
+        if (pos.x < minX) pos.x = minX;
+        if (pos.x > maxX) pos.x = maxX;
+
+        // vertical contraint
+        if (pos.y < minY) pos.y = minY;
+        if (pos.y > maxY) pos.y = maxY;
+
+        // Update position
+        transform.position = pos;
+
+
         Vector3 move = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);
         transform.position += move * playerSpeed * Time.deltaTime;
 
