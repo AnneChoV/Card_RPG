@@ -10,6 +10,10 @@ public class CombatManager : MonoBehaviour {
     //make cards go up and scale while selected.
     //oil placeholder range thing - if we're lucky this is done. >_<
 
+    //Hacky fun times
+    public Color oiledColour;
+    public Color defaultColour;
+
     //Prefabs
     public GameObject cardPrefab;
 
@@ -17,6 +21,8 @@ public class CombatManager : MonoBehaviour {
     public Player player;
     public GameObject characterObject;
     public Enemy enemy;
+    public GameObject enemyObject;
+    public GameObject playerObject;
 
     //Player Combat Cards
     public List<Card> cardHand;
@@ -57,6 +63,28 @@ public class CombatManager : MonoBehaviour {
             }
         }
         ProcessTimeEvents();
+
+        //This is dirty
+        if (player.nextTurnFireDamageMultiplier != 1)
+        {
+            SpriteRenderer enemyRenderer = enemyObject.GetComponent<SpriteRenderer>();
+            enemyRenderer.color = oiledColour;
+        }else
+        {
+            SpriteRenderer enemyRenderer = enemyObject.GetComponent<SpriteRenderer>();
+            enemyRenderer.color = defaultColour;
+        }
+
+        if (enemy.nextTurnFireDamageMultiplier != 1)
+        {
+            SpriteRenderer playerRenderer = playerObject.GetComponent<SpriteRenderer>();
+            playerRenderer.color = oiledColour;
+        }
+        else
+        {
+            SpriteRenderer playerRenderer = playerObject.GetComponent<SpriteRenderer>();
+            playerRenderer.color = defaultColour;
+        }
     }
  
     //ON UPDATE FUNCTIONS:
@@ -98,6 +126,10 @@ public class CombatManager : MonoBehaviour {
                                                                 currentlySelectedCard.maxDamage * player.nextTurnPhysicalDamageMultiplier);
 
                             Debug.Log("You used " + currentlySelectedCard.cardName.ToString() + " for " + currentDamage + " damage.");
+                            if (currentDamage == 0)
+                            {
+                                currentDamage++;
+                            }
                             EnemyTakenDamage(currentDamage);
                         }
                     }
@@ -106,6 +138,10 @@ public class CombatManager : MonoBehaviour {
                         int currentDamage = Random.Range(currentlySelectedCard.minDamage * player.nextTurnFireDamageMultiplier,
                                                             currentlySelectedCard.maxDamage * player.nextTurnFireDamageMultiplier);
                         EnemyTakenDamage(currentDamage);
+                        if (currentDamage == 0)
+                        {
+                            currentDamage++;
+                        }
                         Debug.Log("You used " + currentlySelectedCard.cardName.ToString() + " for " + currentDamage + " damage.");
                     }
 
@@ -113,7 +149,12 @@ public class CombatManager : MonoBehaviour {
             }
             else if (currentlySelectedCard.cardClass == Card.ecardClass.HEAL)   //HEAL
             {
+
                 PlayerTakenDamage(-(Random.Range(currentlySelectedCard.minDamage, currentlySelectedCard.maxDamage)));
+                if (player.playerHealth > 12)
+                {
+                    player.playerHealth = 12;
+                }
             }
             else if (currentlySelectedCard.cardClass == Card.ecardClass.BLOCK)
             {
@@ -128,7 +169,7 @@ public class CombatManager : MonoBehaviour {
                 //Will have to do these by name, because different effects
                 if (currentlySelectedCard.cardName == Card.ecardName.OIL)
                 {
-                    player.nextTurnFireDamageMultiplier = 2;
+                    player.nextTurnFireDamageMultiplier = 3;
                 }
             }
 
@@ -141,11 +182,13 @@ public class CombatManager : MonoBehaviour {
     public void PlayerTakenDamage(int damage)
     {
         player.PlayerTakenDamage(damage);
+        player.SetHealthDisplay();
         playerHpText.text = "Player Health:" + player.playerHealth;
     }
     public void EnemyTakenDamage(int damage)
     {
         enemy.EnemyTakenDamage(damage);
+        enemy.SetHealthDisplay();
         enemyHpText.text = "Enemy Health: " + enemy.enemyHealth;
     }
     Card.ecardName ChooseRandomCardFromList(List<Card.ecardName> availableCards)
@@ -196,6 +239,8 @@ public class CombatManager : MonoBehaviour {
             {
                 if (enemy.currentCard.IsUseableShortRange == true && enemy.isInFrontLine == false)
                 {
+                    //float minDamage = enemy.currentCard.minDamage;
+                    //float maxDamage = enemy.u
                     enemy.currentCard.minDamage /= 2;
                     enemy.currentCard.maxDamage /= 2;
                 }
@@ -214,6 +259,10 @@ public class CombatManager : MonoBehaviour {
                     {
                         int damageTaken = Random.Range(enemy.currentCard.minDamage * player.nextTurnPhysicalDamageMultiplier,
                                                             enemy.currentCard.maxDamage * player.nextTurnPhysicalDamageMultiplier);
+                        if (damageTaken == 0)
+                        {
+                            damageTaken++;
+                        }
                         PlayerTakenDamage(damageTaken);
                         Debug.Log("It did " + damageTaken + " damage.");
                     }
@@ -221,6 +270,10 @@ public class CombatManager : MonoBehaviour {
                     {
                         int damageTaken = Random.Range(enemy.currentCard.minDamage * player.nextTurnFireDamageMultiplier,
                                                             enemy.currentCard.maxDamage * player.nextTurnFireDamageMultiplier);
+                        if (damageTaken == 0)
+                        {
+                            damageTaken++;
+                        }
                         PlayerTakenDamage(damageTaken);
                         Debug.Log("It did " + damageTaken + " damage.");
                     }
@@ -230,17 +283,24 @@ public class CombatManager : MonoBehaviour {
             else if (enemy.currentCard.cardClass == Card.ecardClass.HEAL)   //HEAL
             {
                 EnemyTakenDamage(-(Random.Range(enemy.currentCard.minDamage, enemy.currentCard.maxDamage)));
+                if (enemy.enemyHealth > 12)
+                {
+                    enemy.enemyHealth = 12;
+                }
             }
             else if (enemy.currentCard.cardClass == Card.ecardClass.BLOCK)
             {
                 enemy.isBlocking = true;
             }
-            else if (enemy.currentCard.cardClass == Card.ecardClass.NEXTTURNBOOST)
+            enemy.nextTurnFireDamageMultiplier = 1;
+            enemy.nextTurnPhysicalDamageMultiplier = 1;
+
+            if (enemy.currentCard.cardClass == Card.ecardClass.NEXTTURNBOOST)
             {
                 //Will have to do these by name, because different effects
                 if (enemy.currentCard.cardName == Card.ecardName.OIL)
                 {
-                    enemy.nextTurnFireDamageMultiplier = 2;
+                    enemy.nextTurnFireDamageMultiplier = 3;
                 }
             }
             enemy.currentEnergy -= enemy.currentCard.tier * 33;
