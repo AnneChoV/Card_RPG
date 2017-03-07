@@ -8,6 +8,12 @@ public class CombatManager : MonoBehaviour {
 
     //Make cards highlight while usable.
     //make cards go up and scale while selected.
+    //make heart hp work
+    //make bars work
+    //make button that changes player to front line - also should change x position of players.
+    //oil placeholder range thing
+
+
 
     //Prefabs
     public GameObject cardPrefab;
@@ -28,6 +34,7 @@ public class CombatManager : MonoBehaviour {
     public Text enemyEnergyText;
     public Text playerRangeLocationText;
     public Text enemyRangeLocationText;
+
 
     // STARTING FUNCTIONS - READ FROM HERE!
     void Start ()
