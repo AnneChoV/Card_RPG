@@ -17,9 +17,16 @@ public class SoundManager : MonoBehaviour
 
     public static SoundManager instance = null;
 
+    private bool battleOver = false;
+
     // Use this for initialization
     void Awake()
     {
+        if (SceneManager.GetActiveScene().name == "Main Menu")
+        {
+            selectedTheme = mainTheme;
+        }
+
         if (SceneManager.GetActiveScene().name == "Test_Map")
         {
             selectedTheme = mainTheme;
@@ -68,15 +75,23 @@ public class SoundManager : MonoBehaviour
 
     public void playTheme(string sceneName)
     {
-        if (sceneName == "Test_Map")
+        if (SceneManager.GetActiveScene().name == "Main Menu")
         {
-            themeSource.Stop();
             selectedTheme = mainTheme;
-            themeSource.PlayOneShot(selectedTheme);
-            Debug.Log("Map");
         }
 
-        if (sceneName == "Not not Combat Scene")
+        if (sceneName == "Test_Map")
+        {
+            if (battleOver == true)
+            {
+                themeSource.Stop();
+                selectedTheme = mainTheme;
+                themeSource.PlayOneShot(selectedTheme);
+                Debug.Log("Map");
+            }
+        }
+
+        if (sceneName == "Test_Combat")
         {
             themeSource.Stop();
             selectedTheme = battleTheme;

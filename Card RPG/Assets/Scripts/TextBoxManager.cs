@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class TextBoxManager : MonoBehaviour {
 
+    SceneChanger sceneChanger;
     public GameObject textBox;
     public Text text;
 
@@ -29,6 +30,7 @@ public class TextBoxManager : MonoBehaviour {
         {
             endAtLine = textLines.Length - 1;
         }
+        sceneChanger = FindObjectOfType<SceneChanger>();
 	}
 	
 	// Update is called once per frame
@@ -44,6 +46,7 @@ public class TextBoxManager : MonoBehaviour {
         {
             textBox.SetActive(false);
             currentLine = 0;
+            sceneChanger.SceneLoad("Test_Combat");
         }
 	}
 }

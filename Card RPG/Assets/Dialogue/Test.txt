@@ -1,9 +1,10 @@
-This is text
-This is even more text
-Testing
-Testo
-
-
-
-This is even more text!!
-Text is amazing!
+Hold it, Ivan & Pat!
+I'm your council mandated tutorial assistant.
+We're about to have some fisticuffs.
+When in combat, use the mouse to select your attack card.
+Pay attention to the card's tier and your ATB bar.
+To play a card, you need ATB points equal to the card's tier.
+Cards have varying effective ranges.
+To switch your stance between Melee and Ranged press P.
+We're not sure what to do with this yet. 
+Let's have at it!
