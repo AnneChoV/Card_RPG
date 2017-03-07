@@ -14,6 +14,7 @@ public class Enemy : MonoBehaviour {
     public int nextTurnFireDamageMultiplier;
     public int nextTurnPhysicalDamageMultiplier;
     public List<Card.ecardName> currentDeck;    //Will need to set this up per monster.
+    public List<Card.ecardName> TestDeck;    //Will need to set this up per monster.
 
     public Canvas canvas;
 
@@ -40,7 +41,7 @@ public class Enemy : MonoBehaviour {
 		
 	}
 
-    private void SetHealthDisplay() //WILL NOT SHOW WITH OVER 16 HP (make more hearts in editor or some shit).
+    public void SetHealthDisplay() //WILL NOT SHOW WITH OVER 16 HP (make more hearts in editor or some shit).
     {
         if (enemyHealth < 0)
         {

@@ -31,22 +31,6 @@ public class Player : MonoBehaviour {
 
     int numFullHearts;
 
-    private void Awake()
-    {
-       
-        // Don't destroy on load
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else if (instance != this)
-        {
-            Destroy(gameObject);
-        }
-
-        DontDestroyOnLoad(gameObject);
-    }
-
     // Use this for initialization
     void Start () {
 
@@ -64,7 +48,7 @@ public class Player : MonoBehaviour {
         //}
     }
 	
-    private void SetHealthDisplay() //WILL NOT SHOW WITH OVER 16 HP.
+    public void SetHealthDisplay() //WILL NOT SHOW WITH OVER 16 HP.
     {
         numFullHearts = playerHealth / 4;
         if (playerHealth < 0)
@@ -100,6 +84,7 @@ public class Player : MonoBehaviour {
         {
             myTransform = GameObject.FindGameObjectWithTag("Player").transform.position;
         }
+        
 
     }
 
