@@ -42,6 +42,8 @@ public class CameraFollow : MonoBehaviour
 
             if (Mathf.Abs(y - player.position.y) > margin.y)
                 y = Mathf.Lerp(y, player.position.y, smoothing.y * Time.deltaTime);
+            //x = player.position.x;
+            //y = player.position.y;
         }
 
         // ortographicSize is the half of the height of the Camera.

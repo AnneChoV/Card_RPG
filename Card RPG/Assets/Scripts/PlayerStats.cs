@@ -4,29 +4,27 @@ using UnityEngine;
 
 public class PlayerStats : MonoBehaviour {
 
-    private float minX, maxX, minY, maxY;
+    private Vector3 min, max;
 
     public float playerHealth;
     public float playerSpeed;
 
     public GameObject DialogueBox;
+    public BoxCollider2D PlayerBounds;
 
     EnemyStats enemy;
 
     SceneChanger sceneChanger;
+
 	// Use this for initialization
 	void Start () {
         playerHealth = 100f;
         playerSpeed = 5.0f;
 
-        float camDistance = Vector3.Distance(transform.position, Camera.main.transform.position);
-        Vector2 bottomCorner = Camera.main.ViewportToWorldPoint(new Vector3(-0.24f, -1.4f, camDistance));
-        Vector2 topCorner = Camera.main.ViewportToWorldPoint(new Vector3(1.85f, 2.35f, camDistance));
-
-        minX = bottomCorner.x;
-        maxX = topCorner.x;
-        minY = bottomCorner.y;
-        maxY = topCorner.y;
+        min.x = PlayerBounds.bounds.min.x;
+        max.x = PlayerBounds.bounds.max.x;
+        min.y = PlayerBounds.bounds.min.y;
+        max.y = PlayerBounds.bounds.max.y;
 
         enemy = FindObjectOfType<EnemyStats>();
         sceneChanger = FindObjectOfType<SceneChanger>();
@@ -39,12 +37,12 @@ public class PlayerStats : MonoBehaviour {
         Vector3 pos = transform.position;
 
         // Horizontal contraint
-        if (pos.x < minX) pos.x = minX;
-        if (pos.x > maxX) pos.x = maxX;
+        if (pos.x < min.x) pos.x = min.x;
+        if (pos.x > max.x) pos.x = max.x;
 
         // vertical contraint
-        if (pos.y < minY) pos.y = minY;
-        if (pos.y > maxY) pos.y = maxY;
+        if (pos.y < min.y) pos.y = min.y;
+        if (pos.y > max.y) pos.y = max.y;
 
         // Update position
         transform.position = pos;

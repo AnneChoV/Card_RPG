@@ -7,6 +7,7 @@ public class EnemyStats : MonoBehaviour {
     public float enemyHealth;
     public float enemyMovementSpeed;
     public float enemyRotationSpeed;
+    public BoxCollider2D PlayerBounds;
 
     public Transform myTransform;
     public Transform target; // enemy target point
@@ -14,7 +15,7 @@ public class EnemyStats : MonoBehaviour {
     public bool colWithPlayer;
     SpriteRenderer spriteRenderer;
 
-    private float minX, maxX, minY, maxY;
+    private Vector3 min, max;
 
     private void Awake()
     {
@@ -25,17 +26,13 @@ public class EnemyStats : MonoBehaviour {
     void Start () {
 
         enemyHealth = 100f;
-        enemyMovementSpeed = 3.0f;
+        enemyMovementSpeed = 1.0f;
         enemyRotationSpeed = 3.0f;
 
-        //float camDistance = Vector3.Distance(transform.position, Camera.main.transform.position);
-        //Vector2 bottomCorner = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, camDistance));
-        //Vector2 topCorner = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, camDistance));
-
-        //minX = bottomCorner.x;
-        //maxX = topCorner.x;
-        //minY = bottomCorner.y;
-        //maxY = topCorner.y;
+        min.x = PlayerBounds.bounds.min.x;
+        max.x = PlayerBounds.bounds.max.x;
+        min.y = PlayerBounds.bounds.min.y;
+        max.y = PlayerBounds.bounds.max.y;
 
         target = GameObject.FindGameObjectWithTag("Player").transform; // Find player
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -48,12 +45,12 @@ public class EnemyStats : MonoBehaviour {
         Vector3 pos = transform.position;
 
         // Horizontal contraint
-        if (pos.x < minX) pos.x = minX;
-        if (pos.x > maxX) pos.x = maxX;
+        if (pos.x < min.x) pos.x = min.x;
+        if (pos.x > max.x) pos.x = max.x;
 
         // vertical contraint
-        if (pos.y < minY) pos.y = minY;
-        if (pos.y > maxY) pos.y = maxY;
+        if (pos.y < min.y) pos.y = min.y;
+        if (pos.y > max.y) pos.y = max.y;
 
         // Update position
         transform.position = pos;
