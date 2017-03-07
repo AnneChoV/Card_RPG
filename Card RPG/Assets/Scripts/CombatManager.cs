@@ -8,18 +8,14 @@ public class CombatManager : MonoBehaviour {
 
     //Make cards highlight while usable.
     //make cards go up and scale while selected.
-    //make heart hp work
-    //make bars work
-    //make button that changes player to front line - also should change x position of players.
-    //oil placeholder range thing
-
-
+    //oil placeholder range thing - if we're lucky this is done. >_<
 
     //Prefabs
     public GameObject cardPrefab;
 
     //Important Game Objects
     public Player player;
+    public GameObject characterObject;
     public Enemy enemy;
 
     //Player Combat Cards
@@ -35,6 +31,9 @@ public class CombatManager : MonoBehaviour {
     public Text playerRangeLocationText;
     public Text enemyRangeLocationText;
 
+    public GameObject playerEnergySlider;
+    public GameObject enemyEnergySlider;
+
 
     // STARTING FUNCTIONS - READ FROM HERE!
     void Start ()
@@ -43,6 +42,20 @@ public class CombatManager : MonoBehaviour {
     }	
 	void Update ()
     {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            player.isInFrontLine = !player.isInFrontLine;
+            if (player.isInFrontLine == true)
+            {
+                playerRangeLocationText.text = "Front Line";
+                characterObject.transform.position = new Vector3(-3.0f, 1.9f, 0.0f);
+            }
+            else
+            {
+                playerRangeLocationText.text = "Back Line";
+                characterObject.transform.position = new Vector3(-6.0f, 1.9f, 0.0f);
+            }
+        }
         ProcessTimeEvents();
     }
  
@@ -256,6 +269,12 @@ public class CombatManager : MonoBehaviour {
                 enemy.timeUntilNextEnergy = enemy.timeRequiredForEnergyRegen;
             }
         }
+        RectTransform playerEnergySliderRT = playerEnergySlider.GetComponent<RectTransform>();
+        playerEnergySliderRT.anchoredPosition = new Vector3(2* player.currentEnergy - 100, 0.0f, 0.0f);
+
+        RectTransform enemyEnergySliderRT = enemyEnergySlider.GetComponent<RectTransform>();
+        enemyEnergySliderRT.anchoredPosition = new Vector3(2 * enemy.currentEnergy - 100, 0.0f, 0.0f);
+
     }
 
     //  ON START FUNCTIONS
@@ -294,8 +313,8 @@ public class CombatManager : MonoBehaviour {
         {
             GameObject currentCard = Instantiate(cardPrefab, new Vector3(-4.0f + x * 2, -3.5f, 0.0f), Quaternion.identity, UICanvas.transform) as GameObject;
             Card currentCardClass = currentCard.GetComponent<Card>();
-            RectTransform currentCardRT = (RectTransform)currentCard.transform;
-            currentCard.transform.localScale = new Vector3(2.0f, 2.0f, 2.0f);
+            RectTransform currentCardRT = currentCard.GetComponent<RectTransform>();
+            currentCardRT.localScale = new Vector3(2.0f, 2.0f, 2.0f);
             currentCardRT.anchoredPosition = new Vector3(-300.0f + x * 150, -150.0f, 0.0f);
 
             currentCardClass.combatManager = this;

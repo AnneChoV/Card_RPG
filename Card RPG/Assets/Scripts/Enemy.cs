@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour {
 
@@ -20,6 +21,10 @@ public class Enemy : MonoBehaviour {
     public float timeRequiredForEnergyRegen;
     public float timeUntilNextEnergy;
 
+    public Sprite[] heartSprites;
+    public Image[] heartDisplays;
+    int numFullHearts;
+
     void Start ()
     {
         GameObject currentCardGO = Instantiate(cardPrefab, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity, canvas.transform) as GameObject;
@@ -27,17 +32,46 @@ public class Enemy : MonoBehaviour {
         RectTransform currentCardRT = (RectTransform)currentCard.transform;
         currentCardRT.anchoredPosition = new Vector3(300.0f, 220.0f, 0.0f);
         SetUpCombatStats();
+
+        SetHealthDisplay();
     }	
 
 	void Update () {
 		
 	}
 
+    private void SetHealthDisplay() //WILL NOT SHOW WITH OVER 16 HP (make more hearts in editor or some shit).
+    {
+        if (enemyHealth < 0)
+        {
+            return;
+        }
+        numFullHearts = enemyHealth / 4;
+
+        for (int i = 0; i < heartDisplays.Length; i++)
+        {
+            if (i < numFullHearts)
+            {
+                heartDisplays[i].sprite = heartSprites[4];
+            }
+            else if (i > numFullHearts)
+            {
+                heartDisplays[i].sprite = heartSprites[0];
+            }
+            // Decide how far around this heart is (i.e. 1/4 or 2/4 or 3/4)
+            else
+            {
+                int r = enemyHealth % 4;
+                heartDisplays[i].sprite = heartSprites[r];
+            }
+        }
+    }
 
     //HELPER FUNCTIONS FOR COMBAT MANAGER
     public void EnemyTakenDamage(int damage)
     {
         enemyHealth -= damage;
+        SetHealthDisplay();
     }
 
     //START FUNCTIONS

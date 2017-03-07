@@ -16,23 +16,47 @@ public class CardColouring : MonoBehaviour {
     public Color FireField;
     public Color FireText;
 
-    [Header("Card Type Index")]
+    public Color RestoreBack;
+    public Color RestoreField;
+    public Color RestoreText;
+
+    public Color PhysicalBack;
+    public Color PhysicalField;
+    public Color PhysicalText;
+
+
+[Header("Card Type Index")]
     //For testing, 0 = Curse, 1 = Fire
     public int TypeID;
 
 	void Start () {
 		//Apply chosen colour to base
-        foreach(Transform child in transform)
+
+    }
+    
+	
+	// Update is called once per frame
+	void Update () {
+        foreach (Transform child in transform)
         {
-            if(child.gameObject.tag == "CardBase")
+            if (child.gameObject.tag == "CardBase")
             {
                 Image childRenderer = child.GetComponent<Image>();
                 if (TypeID == 0)
                 {
                     childRenderer.color = CurseBack;
-                }else
+                }
+                else if (TypeID == 1)
                 {
                     childRenderer.color = FireBack;
+                }
+                else if (TypeID == 2)
+                {
+                    childRenderer.color = RestoreBack;
+                }
+                else if (TypeID == 3)
+                {
+                    childRenderer.color = PhysicalBack;
                 }
             }
         }
@@ -47,9 +71,17 @@ public class CardColouring : MonoBehaviour {
                 {
                     childRenderer.color = CurseField;
                 }
-                else
+                else if (TypeID == 1)
                 {
                     childRenderer.color = FireField;
+                }
+                else if (TypeID == 2)
+                {
+                    childRenderer.color = RestoreField;
+                }
+                else if (TypeID == 3)
+                {
+                    childRenderer.color = PhysicalField;
                 }
             }
         }
@@ -64,17 +96,19 @@ public class CardColouring : MonoBehaviour {
                 {
                     childRenderer.color = CurseText;
                 }
-                else
+                else if (TypeID == 1)
                 {
                     childRenderer.color = FireText;
+                }
+                else if (TypeID == 2)
+                {
+                    childRenderer.color = RestoreText;
+                }
+                else if (TypeID == 3)
+                {
+                    childRenderer.color = PhysicalText;
                 }
             }
         }
     }
-    
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }

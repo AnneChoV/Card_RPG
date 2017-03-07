@@ -66,6 +66,7 @@ public class Card : MonoBehaviour {
     public Image iRangeImageRangedPrefab;
     public Image iRangeImageMeleePrefab;
     public Image iRangeImageMeleeAndRangedPrefab;
+    public Image iOilImageHackyPrefab;
 
 
     public Sprite cardSprite;
@@ -79,11 +80,11 @@ public class Card : MonoBehaviour {
     public Image iCardImageElement;
     public Image iCardImageRange;
 
-
-
     public Text tCardDescription;
     public Text tCardTier;
     public Text tCardDamage;
+
+    public CardColouring cardColouring;
 
     public CombatManager combatManager; //Used to pass click infomation back up to where it's used.
 
@@ -119,20 +120,22 @@ public class Card : MonoBehaviour {
         if (newCardElement == ecardElement.PHYSICAL)
         {
             iElementImage.sprite = iElementImagePhysicalPrefab.sprite;
+            cardColouring.TypeID = 3;
         }
         else if (newCardElement == ecardElement.FIRE)
         {
             iElementImage.sprite = iElementImageFirePrefab.sprite;
+            cardColouring.TypeID = 1;
         }
         else if (newCardElement == ecardElement.CURSE)
         {
             iElementImage.sprite = iElementImageCursePrefab.sprite;
-            Debug.Log("Restore");
+            cardColouring.TypeID = 0;
         }
         else if (newCardElement == ecardElement.RESTORATION)
         {
             iElementImage.sprite = iElementImageRestorePrefab.sprite;
-            Debug.Log("Restore");
+            cardColouring.TypeID = 2;
         }
         for (int i = 0; i < newTier; i++)
         {
@@ -172,20 +175,22 @@ public class Card : MonoBehaviour {
         if (newCardElement == ecardElement.PHYSICAL)
         {
             iElementImage.sprite = iElementImagePhysicalPrefab.sprite;
+            cardColouring.TypeID = 3;
         }
         else if (newCardElement == ecardElement.FIRE)
         {
             iElementImage.sprite = iElementImageFirePrefab.sprite;
+            cardColouring.TypeID = 1;
         }
         else if (newCardElement == ecardElement.CURSE)
         {
             iElementImage.sprite = iElementImageCursePrefab.sprite;
-            Debug.Log("Restore");
+            cardColouring.TypeID = 0;
         }
         else if (newCardElement == ecardElement.RESTORATION)
         {
             iElementImage.sprite = iElementImageRestorePrefab.sprite;
-            Debug.Log("Restore");
+            cardColouring.TypeID = 2;
         }
         for (int i = 0; i < newTier; i++)
         {
@@ -212,31 +217,39 @@ public class Card : MonoBehaviour {
         tCardName.text = newCardName.ToString();
         tCardDamage.text = newMinDamage.ToString();
         tCardDescription.text = newDescription;
-        //tCardElement.text = newCardElement.ToString();
         cardSprite = newCardSprite;
         if (newCardElement == ecardElement.PHYSICAL)
         {
             iElementImage.sprite = iElementImagePhysicalPrefab.sprite;
+            cardColouring.TypeID = 3;
         }
         else if (newCardElement == ecardElement.FIRE)
         {
             iElementImage.sprite = iElementImageFirePrefab.sprite;
+            cardColouring.TypeID = 1;
         }
         else if (newCardElement == ecardElement.CURSE)
         {
             iElementImage.sprite = iElementImageCursePrefab.sprite;
-            Debug.Log("Restore");
+            cardColouring.TypeID = 0;
         }
         else if (newCardElement == ecardElement.RESTORATION)
         {
             iElementImage.sprite = iElementImageRestorePrefab.sprite;
-            Debug.Log("Restore");
+            cardColouring.TypeID = 2;
         }
 
         if (IsUseableLongRange == true && IsUseableShortRange == true)
         {
             //FREAKOUTCAUSE WE DONT HAVE A CARD FOR THIS
-            iRangeImage.sprite = iRangeImageMeleeAndRangedPrefab.sprite;
+            if (cardName == ecardName.OIL)
+            {
+                iRangeImage.sprite = iOilImageHackyPrefab.sprite;
+            }
+            else
+            {
+                iRangeImage.sprite = iRangeImageMeleeAndRangedPrefab.sprite;
+            }
         }
         else if (IsUseableLongRange == false && IsUseableShortRange == true)
         {
@@ -274,21 +287,24 @@ public class Card : MonoBehaviour {
         if (newCardElement == ecardElement.PHYSICAL)
         {
             iElementImage.sprite = iElementImagePhysicalPrefab.sprite;
+            cardColouring.TypeID = 3;
         }
         else if (newCardElement == ecardElement.FIRE)
         {
             iElementImage.sprite = iElementImageFirePrefab.sprite;
+            cardColouring.TypeID = 1;
         }
         else if (newCardElement == ecardElement.CURSE)
         {
             iElementImage.sprite = iElementImageCursePrefab.sprite;
-            Debug.Log("Restore");
+            cardColouring.TypeID = 0;
         }
         else if (newCardElement == ecardElement.RESTORATION)
         {
             iElementImage.sprite = iElementImageRestorePrefab.sprite;
-            Debug.Log("Restore");
+            cardColouring.TypeID = 2;
         }
+
         for (int i = 0; i < newTier; i++)
         {
             tCardTier.text = tCardTier.text + "I";
