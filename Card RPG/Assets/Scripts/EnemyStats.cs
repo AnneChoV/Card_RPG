@@ -12,7 +12,7 @@ public class EnemyStats : MonoBehaviour {
     public Transform target; // enemy target point
 
     public bool colWithPlayer;
-    
+    SpriteRenderer spriteRenderer;
 
     private void Awake()
     {
@@ -27,7 +27,8 @@ public class EnemyStats : MonoBehaviour {
         enemyRotationSpeed = 3.0f;
 
         target = GameObject.FindGameObjectWithTag("Player").transform; // Find player
-	}
+        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -65,12 +66,17 @@ public class EnemyStats : MonoBehaviour {
         }
     }
 
+
     void GoToTarget()
     {
         Vector3 targetDirection = GetTargetDirection(myTransform.position, target.position);
-        if (targetDirection.x > 0 && myTransform.rotation == Quaternion.identity)
+        if (targetDirection.x > 0.0f)
         {
-            myTransform.Rotate(new Vector3(0.0f, 180.0f, 0.0f));
+            spriteRenderer.flipX = false;
+        }
+        else if (targetDirection.x < 0)
+        {
+            spriteRenderer.flipX = true;
         }
         if (Vector3.Distance(transform.position, target.position) > 1.0f && colWithPlayer != true)
         {
