@@ -26,13 +26,10 @@ public class Player : MonoBehaviour {
     public Canvas canvas;
     public int currentEnergy;
 
-<<<<<<< HEAD
-=======
     public Sprite[] heartSprites;
     public Image[] heartDisplays;
 
     int numFullHearts;
->>>>>>> Amber-CardClass
 
     private void Awake()
     {
@@ -52,8 +49,7 @@ public class Player : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-<<<<<<< HEAD
-=======
+
         Debug.Log("Starto");
         SetHealthDisplay();
         //for (int i = 0; i <= numFullHearts; i++)
@@ -98,22 +94,15 @@ public class Player : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
->>>>>>> Amber-CardClass
+
         Scene currentScene = SceneManager.GetActiveScene();
         if (currentScene.name != "Test_Combat" && currentScene.name != "Main Menu")
         {
             myTransform = GameObject.FindGameObjectWithTag("Player").transform.position;
         }
 
-<<<<<<< HEAD
     }
 
-    // Update is called once per frame
-    void Update () {
-
-=======
->>>>>>> Amber-CardClass
-    }
 
     public void PlayerTakenDamage(int damage)
     {
