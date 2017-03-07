@@ -5,15 +5,17 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class CombatManager : MonoBehaviour {
-    //Current To Do: Get cards to negate energy. YEEE
-    //Then make cards createable within unity using picture sprites.
-    //Then you can highlight useable cards etc so you can see when you can use them easier.
+
+    //Make cards highlight while usable.
+    //make cards go up and scale while selected.
+    //oil placeholder range thing - if we're lucky this is done. >_<
 
     //Prefabs
     public GameObject cardPrefab;
 
     //Important Game Objects
     public Player player;
+    public GameObject characterObject;
     public Enemy enemy;
 
     //Player Combat Cards
@@ -25,67 +27,61 @@ public class CombatManager : MonoBehaviour {
     public Text playerHpText;
     public Text enemyHpText;
     public Text playerEnergyText;
+    public Text enemyEnergyText;
+    public Text playerRangeLocationText;
+    public Text enemyRangeLocationText;
+
+    public GameObject playerEnergySlider;
+    public GameObject enemyEnergySlider;
+
 
     // STARTING FUNCTIONS - READ FROM HERE!
     void Start ()
     {
-        SetPlayerAndEnemyHp();
-        SetUpCards();
+        SetPlayerAndEnemyStats();
     }	
 	void Update ()
     {
-        ProcessClicking();
-        ProcessRayCasting();    //If we have frame issues, probably change this first.
-        ProcessTimeEvents();
-    }
-
-
-    //  ON UPDATE FUNCTIONS
-    void ProcessClicking()
-    {
-        //MOUSE INPUT (raycasting to gameobjects).
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetKeyDown(KeyCode.P))
         {
-            if (currentlySelectedCard != null) 
+            player.isInFrontLine = !player.isInFrontLine;
+            if (player.isInFrontLine == true)
             {
-                //currentlySelectedCard.transform.localPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);  //Wanted to be able to drag. Will ask bf later :<
-                ProcessPlayerCardUsing();
-            }
-        }
-    }
-    void ProcessRayCasting()
-    {
-        RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-
-        if (hit.collider != null)   //If we hit something
-        {
-            // Card Selection
-            if (hit.collider.gameObject.name == "Card(Clone)")
-            {
-                SelectCard(hit.collider.gameObject.GetComponent<Card>());
+                playerRangeLocationText.text = "Front Line";
+                characterObject.transform.position = new Vector3(-3.0f, 1.9f, 0.0f);
             }
             else
             {
-                DeselectCard();
+                playerRangeLocationText.text = "Back Line";
+                characterObject.transform.position = new Vector3(-6.0f, 1.9f, 0.0f);
             }
         }
-        else //If nothing hit by mouse raycast
-        {
-            DeselectCard();
-        }
+        ProcessTimeEvents();
     }
+ 
+    //ON UPDATE FUNCTIONS:
     void ProcessTimeEvents()
     {
         ProcessEnemyTurns();
-        ProcessPlayerEnergy();
+        ProcessPlayerAndEnemyEnergy();
     }
 
     //  ON UPDATE HELPER FUNCTIONS
         //Process Clicking functions:
-    void ProcessPlayerCardUsing()
+    public void ProcessPlayerCardUsing()
     {
         if (currentlySelectedCard.tier * 33 < player.currentEnergy) //if we have the energy to use the card
         {
+            if (currentlySelectedCard.IsUseableShortRange == true && player.isInFrontLine == false)
+            {
+                currentlySelectedCard.minDamage /= 2;
+                currentlySelectedCard.maxDamage /= 2;
+            }
+            else if (currentlySelectedCard.IsUseableLongRange == true && player.isInFrontLine == true)
+            {
+                currentlySelectedCard.minDamage /= 2;
+                currentlySelectedCard.maxDamage /= 2;
+            }
             if (currentlySelectedCard.cardClass == Card.ecardClass.DAMAGE)  //DAMAGE
             {
                 //NEED TO DO CHECKS FOR IF IN SHORT RANGE OR LONG RANGE.
@@ -97,13 +93,20 @@ public class CombatManager : MonoBehaviour {
                 {
                     if (currentlySelectedCard.cardElement == Card.ecardElement.PHYSICAL)
                     {
-                        EnemyTakenDamage(Random.Range(currentlySelectedCard.minDamage * player.nextTurnPhysicalDamageMultiplier,
-                                                            currentlySelectedCard.maxDamage * player.nextTurnPhysicalDamageMultiplier));
+                                          {
+                            int currentDamage = Random.Range(currentlySelectedCard.minDamage * player.nextTurnPhysicalDamageMultiplier,
+                                                                currentlySelectedCard.maxDamage * player.nextTurnPhysicalDamageMultiplier);
+
+                            Debug.Log("You used " + currentlySelectedCard.cardName.ToString() + " for " + currentDamage + " damage.");
+                            EnemyTakenDamage(currentDamage);
+                        }
                     }
                     if (currentlySelectedCard.cardElement == Card.ecardElement.FIRE)
                     {
-                        EnemyTakenDamage(Random.Range(currentlySelectedCard.minDamage * player.nextTurnFireDamageMultiplier,
-                                                            currentlySelectedCard.maxDamage * player.nextTurnFireDamageMultiplier));
+                        int currentDamage = Random.Range(currentlySelectedCard.minDamage * player.nextTurnFireDamageMultiplier,
+                                                            currentlySelectedCard.maxDamage * player.nextTurnFireDamageMultiplier);
+                        EnemyTakenDamage(currentDamage);
+                        Debug.Log("You used " + currentlySelectedCard.cardName.ToString() + " for " + currentDamage + " damage.");
                     }
 
                 }
@@ -123,7 +126,7 @@ public class CombatManager : MonoBehaviour {
             if (currentlySelectedCard.cardClass == Card.ecardClass.NEXTTURNBOOST)   //BOOSTS, need to be after the resets.
             {
                 //Will have to do these by name, because different effects
-                if (currentlySelectedCard.cardName == Card.ecardName.OILCARD)
+                if (currentlySelectedCard.cardName == Card.ecardName.OIL)
                 {
                     player.nextTurnFireDamageMultiplier = 2;
                 }
@@ -151,7 +154,7 @@ public class CombatManager : MonoBehaviour {
         return availableCards[cardChosen];
     }
 
-        //Process RayCasting Functions:
+       
     void SelectCard(Card selectedCard)
     {
         if (currentlySelectedCard != null)
@@ -178,57 +181,73 @@ public class CombatManager : MonoBehaviour {
         //ProcessTimeEvents Functions:
     void ProcessEnemyTurns()
     {
-        enemy.turnTimer -= Time.deltaTime;
-
-        if (enemy.turnTimer <= 0.0f)
-        {
-            Debug.Log("Enemyturn");
-            PlayRandomEnemyCard();
-            enemy.turnTimer = enemy.totalTimeBetweenTurns;
-        }
+        ProcessEnemyCardUsing();
     }
-    void ProcessEnemyCardUsing(Card currentcard)
+    void ProcessEnemyCardUsing()
     {
-        if (currentcard.cardClass == Card.ecardClass.DAMAGE)  //DAMAGE
+        if (enemy.currentEnergy < enemy.currentCard.tier * 33)   //check the enemy has enough energy to play their card.
         {
-            //NEED TO DO CHECKS FOR IF IN SHORT RANGE OR LONG RANGE.
-            if (player.isBlocking == true)
+            return;
+        }
+        else
+        {
+            Debug.Log("Enemy using: " + enemy.currentCard.cardName.ToString());
+            if (enemy.currentCard.cardClass == Card.ecardClass.DAMAGE)  //DAMAGE
             {
-                player.isBlocking = false;
-            }
-            else
-            {
-                if (currentcard.cardElement == Card.ecardElement.PHYSICAL)
+                if (enemy.currentCard.IsUseableShortRange == true && enemy.isInFrontLine == false)
                 {
-                    PlayerTakenDamage(Random.Range(currentcard.minDamage * player.nextTurnPhysicalDamageMultiplier,
-                                                        currentcard.maxDamage * player.nextTurnPhysicalDamageMultiplier));
+                    enemy.currentCard.minDamage /= 2;
+                    enemy.currentCard.maxDamage /= 2;
                 }
-                if (currentcard.cardElement == Card.ecardElement.FIRE)
+                else if (enemy.currentCard.IsUseableLongRange == true && enemy.isInFrontLine == true)
                 {
-                    PlayerTakenDamage(Random.Range(currentcard.minDamage * player.nextTurnFireDamageMultiplier,
-                                                        currentcard.maxDamage * player.nextTurnFireDamageMultiplier));
+                    enemy.currentCard.minDamage /= 2;
+                    enemy.currentCard.maxDamage /= 2;
                 }
+                if (player.isBlocking == true)
+                {
+                    player.isBlocking = false;
+                }
+                else
+                {
+                    if (enemy.currentCard.cardElement == Card.ecardElement.PHYSICAL)
+                    {
+                        int damageTaken = Random.Range(enemy.currentCard.minDamage * player.nextTurnPhysicalDamageMultiplier,
+                                                            enemy.currentCard.maxDamage * player.nextTurnPhysicalDamageMultiplier);
+                        PlayerTakenDamage(damageTaken);
+                        Debug.Log("It did " + damageTaken + " damage.");
+                    }
+                    if (enemy.currentCard.cardElement == Card.ecardElement.FIRE)
+                    {
+                        int damageTaken = Random.Range(enemy.currentCard.minDamage * player.nextTurnFireDamageMultiplier,
+                                                            enemy.currentCard.maxDamage * player.nextTurnFireDamageMultiplier);
+                        PlayerTakenDamage(damageTaken);
+                        Debug.Log("It did " + damageTaken + " damage.");
+                    }
 
+                }
             }
-        }
-        else if (currentcard.cardClass == Card.ecardClass.HEAL)   //HEAL
-        {
-            EnemyTakenDamage(-(Random.Range(currentcard.minDamage, currentcard.maxDamage)));
-        }
-        else if (currentcard.cardClass == Card.ecardClass.BLOCK)
-        {
-            enemy.isBlocking = true;
-        }
-        else if (currentcard.cardClass == Card.ecardClass.NEXTTURNBOOST)
-        {
-            //Will have to do these by name, because different effects
-            if (currentcard.cardName == Card.ecardName.OILCARD)
+            else if (enemy.currentCard.cardClass == Card.ecardClass.HEAL)   //HEAL
             {
-                enemy.nextTurnFireDamageMultiplier = 2;
+                EnemyTakenDamage(-(Random.Range(enemy.currentCard.minDamage, enemy.currentCard.maxDamage)));
             }
+            else if (enemy.currentCard.cardClass == Card.ecardClass.BLOCK)
+            {
+                enemy.isBlocking = true;
+            }
+            else if (enemy.currentCard.cardClass == Card.ecardClass.NEXTTURNBOOST)
+            {
+                //Will have to do these by name, because different effects
+                if (enemy.currentCard.cardName == Card.ecardName.OIL)
+                {
+                    enemy.nextTurnFireDamageMultiplier = 2;
+                }
+            }
+            enemy.currentEnergy -= enemy.currentCard.tier * 33;
+            enemy.currentCard.CreateCard(ChooseRandomCardFromList(enemy.currentDeck));
         }
     }
-    void ProcessPlayerEnergy()
+    void ProcessPlayerAndEnemyEnergy()
     {
         if (player.currentEnergy < 100)
         {
@@ -240,24 +259,66 @@ public class CombatManager : MonoBehaviour {
                 player.timeUntilNextEnergy = player.timeRequiredForEnergyRegen;
             }
         }
+        if (enemy.currentEnergy < 100)
+        {
+            enemy.timeUntilNextEnergy -= Time.deltaTime;
+            if (enemy.timeUntilNextEnergy <= 0)
+            {
+                enemy.currentEnergy += 1;
+                enemyEnergyText.text = "Enemy Energy%: " + enemy.currentEnergy;
+                enemy.timeUntilNextEnergy = enemy.timeRequiredForEnergyRegen;
+            }
+        }
+        RectTransform playerEnergySliderRT = playerEnergySlider.GetComponent<RectTransform>();
+        playerEnergySliderRT.anchoredPosition = new Vector3(2* player.currentEnergy - 100, 0.0f, 0.0f);
+
+        RectTransform enemyEnergySliderRT = enemyEnergySlider.GetComponent<RectTransform>();
+        enemyEnergySliderRT.anchoredPosition = new Vector3(2 * enemy.currentEnergy - 100, 0.0f, 0.0f);
+
     }
 
     //  ON START FUNCTIONS
-    void SetPlayerAndEnemyHp()
+    void SetPlayerAndEnemyStats()
     {
         playerHpText.text = "Player Health:" + player.playerHealth;
         enemyHpText.text = "Enemy Health: " + enemy.enemyHealth;
-        Debug.Log(enemy.enemyHealth);
+        if (player.isInFrontLine == true)
+        {
+            playerRangeLocationText.text = "Front Line";
+        }
+        else
+        {
+            playerRangeLocationText.text = "Back Line";
+        }
+        if (enemy.isInFrontLine == true)
+        {
+            enemyRangeLocationText.text = "Front Line";
+        }
+        else
+        {
+            enemyRangeLocationText.text = "Back Line";
+        }
+
+        SetUpPlayerCards();
+        enemy.currentCard.CreateCard(ChooseRandomCardFromList(enemy.currentDeck));  //give enemy a random card from their deck to use first.
+
     }
-    void SetUpCards()
+    void SetUpPlayerCards()
     {
         cardHand = new List<Card>();
 
+        //65 88
+
         for (int x = 0; x < 4; x++)
-        { 
+        {
             GameObject currentCard = Instantiate(cardPrefab, new Vector3(-4.0f + x * 2, -3.5f, 0.0f), Quaternion.identity, UICanvas.transform) as GameObject;
             Card currentCardClass = currentCard.GetComponent<Card>();
-            currentCard.transform.position = new Vector3(0.0f, 0.0f, 0.0f);
+            RectTransform currentCardRT = currentCard.GetComponent<RectTransform>();
+            currentCardRT.localScale = new Vector3(2.0f, 2.0f, 2.0f);
+            currentCardRT.anchoredPosition = new Vector3(-300.0f + x * 150, -150.0f, 0.0f);
+
+            currentCardClass.combatManager = this;
+
             cardHand.Add(currentCardClass);
 
             //Turn it into a random card from the players deck and give it stats
@@ -266,9 +327,6 @@ public class CombatManager : MonoBehaviour {
     }
     void PlayRandomEnemyCard()
     {
-        enemy.currentCard.CreateCard(ChooseRandomCardFromList(enemy.currentDeck));
-        ProcessEnemyCardUsing(enemy.currentCard);
+        ProcessEnemyCardUsing();
     }
-
-
 }
