@@ -289,7 +289,7 @@ public class CombatManager : MonoBehaviour {
             Card currentCardClass = currentCard.GetComponent<Card>();
             RectTransform currentCardRT = (RectTransform)currentCard.transform;
             currentCard.transform.localScale = new Vector3(2.0f, 2.0f, 2.0f);
-            currentCardRT.anchoredPosition = new Vector3(-300.0f + x * 150, -200.0f, 0.0f);
+            currentCardRT.anchoredPosition = new Vector3(-300.0f + x * 150, -150.0f, 0.0f);
 
             currentCardClass.combatManager = this;
 
