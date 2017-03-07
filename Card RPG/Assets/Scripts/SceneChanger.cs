@@ -5,12 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class SceneChanger : MonoBehaviour
 {
-
     SoundManager soundManager;
+    GameStateManager gameStateManager;
 
     private void Start()
     {
         soundManager = FindObjectOfType<SoundManager>();
+        gameStateManager = FindObjectOfType<GameStateManager>();
     }
 
     IEnumerator Fading()
@@ -25,6 +26,16 @@ public class SceneChanger : MonoBehaviour
         Fading();
         SceneManager.LoadScene(SceneName);
         soundManager.playTheme(SceneName);
+
+        if (SceneName == "Map_1")
+        {
+            gameStateManager.Map_1_to_3 = true;
+        }
+
+        if (SceneName == "Map_2")
+        {
+            gameStateManager.Map_2_to_3 = true;
+        }
     }
 
     public void restartScene()

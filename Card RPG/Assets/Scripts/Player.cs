@@ -22,8 +22,10 @@ public class Player : MonoBehaviour {
 
     public int currentEnergy;
 
+
     private void Awake()
-    { 
+    {
+       
         // Don't destroy on load
         if (instance == null)
         {
@@ -39,16 +41,17 @@ public class Player : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        Debug.Log("Starto");
-    }
-	
-	// Update is called once per frame
-	void Update () {
         Scene currentScene = SceneManager.GetActiveScene();
         if (currentScene.name != "Test_Combat" && currentScene.name != "Main Menu")
         {
             myTransform = GameObject.FindGameObjectWithTag("Player").transform.position;
         }
+
+    }
+
+    // Update is called once per frame
+    void Update () {
+
     }
 
     public void PlayerTakenDamage(int damage)

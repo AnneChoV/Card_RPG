@@ -5,6 +5,7 @@ using UnityEngine;
 public class Waypoint : MonoBehaviour {
 
     SceneChanger sceneChanger;
+
 	// Use this for initialization
 	void Start () {
         sceneChanger = FindObjectOfType<SceneChanger>();
@@ -29,7 +30,7 @@ public class Waypoint : MonoBehaviour {
 
         if (gameObject.name == "ToMap_3")
         {
-            sceneChanger.SceneLoad("Map_1");
+            sceneChanger.SceneLoad("Test_Map");
         }
     }
 }

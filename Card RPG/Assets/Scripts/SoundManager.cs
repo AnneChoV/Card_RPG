@@ -17,6 +17,8 @@ public class SoundManager : MonoBehaviour
 
     public static SoundManager instance = null;
 
+    private bool battleOver = false;
+
     // Use this for initialization
     void Awake()
     {
@@ -80,10 +82,13 @@ public class SoundManager : MonoBehaviour
 
         if (sceneName == "Test_Map")
         {
-            themeSource.Stop();
-            selectedTheme = mainTheme;
-            themeSource.PlayOneShot(selectedTheme);
-            Debug.Log("Map");
+            if (battleOver == true)
+            {
+                themeSource.Stop();
+                selectedTheme = mainTheme;
+                themeSource.PlayOneShot(selectedTheme);
+                Debug.Log("Map");
+            }
         }
 
         if (sceneName == "Test_Combat")

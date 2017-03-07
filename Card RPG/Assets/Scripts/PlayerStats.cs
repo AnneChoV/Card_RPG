@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerStats : MonoBehaviour {
 
@@ -15,9 +16,12 @@ public class PlayerStats : MonoBehaviour {
     EnemyStats enemy;
 
     SceneChanger sceneChanger;
+    GameStateManager gameStateManager;
 
-	// Use this for initialization
-	void Start () {
+    private Vector3 Spawn_1 = new Vector3(-12.21f, 6.91f, 0);
+    private Vector3 Spawn_2 = new Vector3(15.26f, 3.83f, 0);
+    // Use this for initialization
+    void Start () {
         playerHealth = 100f;
         playerSpeed = 5.0f;
 
@@ -28,14 +32,27 @@ public class PlayerStats : MonoBehaviour {
 
         enemy = FindObjectOfType<EnemyStats>();
         sceneChanger = FindObjectOfType<SceneChanger>();
-	}
-	
-	// Update is called once per frame
-	void Update () {
+
+        gameStateManager = FindObjectOfType<GameStateManager>();
+
+        if (gameStateManager.Map_1_to_3 == true && SceneManager.GetActiveScene().name == "Test_Map")
+        {
+            GameObject.FindGameObjectWithTag("Player").transform.position = Spawn_1;
+            gameStateManager.Map_1_to_3 = false;
+        }
+
+        if (gameStateManager.Map_2_to_3 == true && SceneManager.GetActiveScene().name == "Test_Map")
+        {
+            GameObject.FindGameObjectWithTag("Player").transform.position = Spawn_2;
+            gameStateManager.Map_2_to_3 = false;
+        }
+    }
+
+    // Update is called once per frame
+    void Update () {
 
         // Get current position
         Vector3 pos = transform.position;
-
         // Horizontal contraint
         if (pos.x < min.x) pos.x = min.x;
         if (pos.x > max.x) pos.x = max.x;
