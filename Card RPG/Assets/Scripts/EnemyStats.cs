@@ -31,17 +31,20 @@ public class EnemyStats : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        transform.LookAt(target);
+        //transform.LookAt(target);
 
-        transform.Rotate(new Vector3(0, -90, 0), Space.Self);
+        //transform.Rotate(new Vector3(0, -90, 0), Space.Self);
         //myTransform.rotation = Quaternion.Slerp(myTransform.rotation, Quaternion.LookRotation(target.position - myTransform.position), enemyRotationSpeed * Time.deltaTime);
        //myTransform.position += myTransform.forward * enemyMovementSpeed * Time.deltaTime;
 
-        if (Vector3.Distance(transform.position, target.position) > 1.0f && colWithPlayer != true)
-        {
-            transform.Translate(new Vector3(enemyMovementSpeed * Time.deltaTime, 0, 0));
-        }
+
+
+            //transform.Translate(new Vector3(enemyMovementSpeed * Time.deltaTime, 0, 0));
+            GoToTarget();
+        
     }
+
+
 
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -60,5 +63,25 @@ public class EnemyStats : MonoBehaviour {
             colWithPlayer = false;
             transform.Find("Button").gameObject.SetActive(false);
         }
+    }
+
+    void GoToTarget()
+    {
+        Vector3 targetDirection = GetTargetDirection(myTransform.position, target.position);
+        if (targetDirection.x > 0 && myTransform.rotation == Quaternion.identity)
+        {
+            myTransform.Rotate(new Vector3(0.0f, 180.0f, 0.0f));
+        }
+        if (Vector3.Distance(transform.position, target.position) > 1.0f && colWithPlayer != true)
+        {
+            myTransform.position += targetDirection * enemyMovementSpeed * Time.deltaTime;
+        }
+    }
+
+    Vector3 GetTargetDirection(Vector3 startPosition, Vector3 endPosition)
+    {
+        Vector3 targetDirection = (endPosition -  startPosition);
+        targetDirection.Normalize();
+        return targetDirection;
     }
 }
