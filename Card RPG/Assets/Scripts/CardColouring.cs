@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CardColouring : MonoBehaviour {
     //Hacky as fuck, but it gets the point across I hope
@@ -25,7 +26,7 @@ public class CardColouring : MonoBehaviour {
         {
             if(child.gameObject.tag == "CardBase")
             {
-                var childRenderer = child.GetComponent<SpriteRenderer>();
+                Image childRenderer = child.GetComponent<Image>();
                 if (TypeID == 0)
                 {
                     childRenderer.color = CurseBack;
@@ -41,7 +42,7 @@ public class CardColouring : MonoBehaviour {
         {
             if (child.gameObject.tag == "CardField")
             {
-                var childRenderer = child.GetComponent<SpriteRenderer>();
+                Image childRenderer = child.GetComponent<Image>();
                 if (TypeID == 0)
                 {
                     childRenderer.color = CurseField;
@@ -58,7 +59,7 @@ public class CardColouring : MonoBehaviour {
         {
             if (child.gameObject.tag == "CardText")
             {
-                var childRenderer = child.GetComponent<SpriteRenderer>();
+                Image childRenderer = child.GetComponent<Image>();
                 if (TypeID == 0)
                 {
                     childRenderer.color = CurseText;

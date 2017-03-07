@@ -14,14 +14,18 @@ public class Enemy : MonoBehaviour {
     public int nextTurnPhysicalDamageMultiplier;
     public List<Card.ecardName> currentDeck;    //Will need to set this up per monster.
 
+    public Canvas canvas;
+
     public int currentEnergy;
     public float timeRequiredForEnergyRegen;
     public float timeUntilNextEnergy;
 
     void Start ()
     {
-        GameObject currentCardGO = Instantiate(cardPrefab, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity) as GameObject;
+        GameObject currentCardGO = Instantiate(cardPrefab, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity, canvas.transform) as GameObject;
         currentCard = currentCardGO.GetComponent<Card>();
+        RectTransform currentCardRT = (RectTransform)currentCard.transform;
+        currentCardRT.anchoredPosition = new Vector3(300.0f, 220.0f, 0.0f);
         SetUpCombatStats();
     }	
 

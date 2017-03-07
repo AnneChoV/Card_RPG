@@ -59,12 +59,18 @@ public class Card : MonoBehaviour {
     public ecardElement cardElement;
     public ecardName cardName;       //In general we should just be able to use this to make a card. :)
     public Sprite cardSprite;
-    public SpriteRenderer spriteRenderer;
+
     public string description;
 
     public Text tCardName;
     public Image iCardImage;
     public Text tCardElement;
+    public Image iElementImagePhysical;
+    public Image iElementImageFire;
+    public Image iElementImageRestore;
+    public Image iElementImageCurse;
+    public Image iRangeImageRanged;
+    public Image iRangeImageMelee;
     public Text tCardDescription;
     public Text tCardTier;
     public Text tCardDamage;
@@ -99,7 +105,7 @@ public class Card : MonoBehaviour {
 
         tCardName.text = cardName.ToString();
         tCardDescription.text = newDescription;
-        tCardElement.text = newCardElement.ToString();
+        //tCardElement.text = newCardElement.ToString();
         tCardTier.text = newTier.ToString();
         //cardSprite = newCardSprite;
         tCardDamage.text = null;
@@ -140,7 +146,7 @@ public class Card : MonoBehaviour {
         tCardName.text = newCardName.ToString();
         tCardDamage.text = newMinDamage.ToString();
         tCardDescription.text = newDescription;
-        tCardElement.text = newCardElement.ToString();
+        //tCardElement.text = newCardElement.ToString();
         tCardTier.text = newTier.ToString();
         cardSprite = newCardSprite;
         // spriteRenderer.sprite = cardSprite;
@@ -160,7 +166,7 @@ public class Card : MonoBehaviour {
         tCardName.text = cardName.ToString();
         tCardDamage.text = newMinDamage.ToString();
         tCardDescription.text = newDescription;
-        tCardElement.text = newCardElement.ToString();
+        //tCardElement.text = newCardElement.ToString();
         tCardTier.text = newTier.ToString();
         //    cardSprite = newCardSprite;
         //spriteRenderer.sprite = cardSprite;
@@ -186,75 +192,75 @@ public class Card : MonoBehaviour {
         }
         else if (newCardName == ecardName.DAGGERSTABI)
         {
-            CreateCard(1, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[4], "1 Damage.", 1, 1, true, false);
+            CreateCard(1, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[4], "1 Damage.\nHalf in BackLine.", 1, 1, true, false);
         }
         else if (newCardName == ecardName.DAGGERSTABII)
         {
-            CreateCard(2, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[5], "2 Damage.", 2, 2, true, false);
+            CreateCard(2, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[5], "2 Damage.\nHalf in BackLine..", 2, 2, true, false);
         }
         else if (newCardName == ecardName.DAGGERSTABIII)
         {
-            CreateCard(3, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[6], "3 Damage", 3, 3, true, false);
+            CreateCard(3, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[6], "3 Damage\nHalf in BackLine.", 3, 3, true, false);
         }
         else if (newCardName == ecardName.SWORDSLASHI)
         {
-            CreateCard(1, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[7], "1-2 Damage.", 1, 2, true, false);
+            CreateCard(1, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[7], "1-2 Damage.\nHalf in BackLine.", 1, 2, true, false);
         }
         else if (newCardName == ecardName.SWORDSLASHII)
         {
-            CreateCard(2, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[8], "1-3 Damage.", 1, 3, true, false);
+            CreateCard(2, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[8], "1-3 Damage.\nHalf in BackLine.", 1, 3, true, false);
         }
         else if (newCardName == ecardName.SWORDSLASHIII)
         {
-            CreateCard(3, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[9], "2-4 Damage.", 2, 4, true, false);
+            CreateCard(3, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[9], "2-4 Damage.\nHalf in BackLine.", 2, 4, true, false);
         }
         else if (newCardName == ecardName.MACESMASHI)
         {
-            CreateCard(1, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[10], "2-3 Damage.", 2, 3, true, false);
+            CreateCard(1, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[10], "2-3 Damage.\nHalf in BackLine.", 2, 3, true, false);
         }
         else if (newCardName == ecardName.MACESMASHII)
         {
-            CreateCard(1, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[11], "2-4 Damage.", 2, 4, true, false);
+            CreateCard(1, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[11], "2-4 Damage.\nHalf in BackLine.", 2, 4, true, false);
         }
         else if (newCardName == ecardName.MACESMASHIII)
         {
-            CreateCard(1, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[12], "3-5 Damage.", 3, 5, true, false);
+            CreateCard(1, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[12], "3-5 Damage.\nHalf in BackLine.", 3, 5, true, false);
         }
         else if (newCardName == ecardName.THROWI)
         {
-            CreateCard(1, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[13], "1 Damage.", 1, 1, false, true);
+            CreateCard(1, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[13], "1 Damage.\nHalf in FrontLine.", 1, 1, false, true);
         }
         else if (newCardName == ecardName.THROWII)
         {
-            CreateCard(2, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[14], "2 Damage.", 2, 2, false, true);
+            CreateCard(2, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[14], "2 Damage.\nHalf in FrontLine.", 2, 2, false, true);
         }
         else if (newCardName == ecardName.THROWIII)
         {
-            CreateCard(3, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[15], "3 Damage.", 3, 3, false, true);
+            CreateCard(3, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[15], "3 Damage.\nHalf in FrontLine.", 3, 3, false, true);
         }
         else if (newCardName == ecardName.SHOOTI)
         {
-            CreateCard(1, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[16], "1-2 Damage.", 1, 2, false, true);
+            CreateCard(1, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[16], "1-2 Damage.\nHalf in FrontLine.", 1, 2, false, true);
         }
         else if (newCardName == ecardName.SHOOTII)
         {
-            CreateCard(2, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[17], "1-3 Damage.", 1, 3, false, true);
+            CreateCard(2, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[17], "1-3 Damage.\nHalf in FrontLine.", 1, 3, false, true);
         }
         else if (newCardName == ecardName.SHOOTIII)
         {
-            CreateCard(3, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[18], "2-4 Damage.", 2, 4, false, true);
+            CreateCard(3, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[18], "2-4 Damage.\nHalf in FrontLine.", 2, 4, false, true);
         }
         else if (newCardName == ecardName.CATAPULTI)
         {
-            CreateCard(1, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[19], "2-3 Damage.", 2, 3, false, true);
+            CreateCard(1, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[19], "2-3 Damage.\nHalf in FrontLine.", 2, 3, false, true);
         }
         else if (newCardName == ecardName.CATAPULTII)
         {
-            CreateCard(2, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[20], "2-4 Damage.", 2, 4, false, true);
+            CreateCard(2, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[20], "2-4 Damage.\nHalf in FrontLine.", 2, 4, false, true);
         }
         else if (newCardName == ecardName.CATAPULTIII)
         {
-            CreateCard(3, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[21], "3-5 Damage.", 3, 5, false, true);
+            CreateCard(3, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[21], "3-5 Damage.\nHalf in FrontLine.", 3, 5, false, true);
         }
     }
 
