@@ -41,6 +41,9 @@ public class CombatManager : MonoBehaviour {
     public GameObject enemyEnergySlider;
 
 
+    float _timeStartedLerping;
+    bool isLerping;
+
     // STARTING FUNCTIONS - READ FROM HERE!
     void Start ()
     {
@@ -54,12 +57,13 @@ public class CombatManager : MonoBehaviour {
             if (player.isInFrontLine == true)
             {
                 playerRangeLocationText.text = "Front Line";
+                Debug.Log("P prssed");
                 characterObject.transform.position = new Vector3(-3.0f, 1.9f, 0.0f);
             }
             else
             {
                 playerRangeLocationText.text = "Back Line";
-                characterObject.transform.position = new Vector3(-6.0f, 1.9f, 0.0f);
+                characterObject.transform.position = new Vector3(-8.0f, 1.9f, 0.0f);
             }
         }
         ProcessTimeEvents();
@@ -100,12 +104,12 @@ public class CombatManager : MonoBehaviour {
     {
         if (currentlySelectedCard.tier * 33 < player.currentEnergy) //if we have the energy to use the card
         {
-            if (currentlySelectedCard.IsUseableShortRange == true && player.isInFrontLine == false)
+            if (currentlySelectedCard.IsUseableShortRange == false && player.isInFrontLine == true)
             {
                 currentlySelectedCard.minDamage /= 2;
                 currentlySelectedCard.maxDamage /= 2;
             }
-            else if (currentlySelectedCard.IsUseableLongRange == true && player.isInFrontLine == true)
+            else if (currentlySelectedCard.IsUseableLongRange == false && player.isInFrontLine == false)
             {
                 currentlySelectedCard.minDamage /= 2;
                 currentlySelectedCard.maxDamage /= 2;
@@ -125,23 +129,30 @@ public class CombatManager : MonoBehaviour {
                             int currentDamage = Random.Range(currentlySelectedCard.minDamage * player.nextTurnPhysicalDamageMultiplier,
                                                                 currentlySelectedCard.maxDamage * player.nextTurnPhysicalDamageMultiplier);
 
-                            Debug.Log("You used " + currentlySelectedCard.cardName.ToString() + " for " + currentDamage + " damage.");
                             if (currentDamage == 0)
                             {
                                 currentDamage++;
                             }
+
+                            Debug.Log("You used " + currentlySelectedCard.cardName.ToString() + " for " + currentDamage + " damage.");
+
                             EnemyTakenDamage(currentDamage);
                         }
                     }
                     if (currentlySelectedCard.cardElement == Card.ecardElement.FIRE)
                     {
-                        int currentDamage = Random.Range(currentlySelectedCard.minDamage * player.nextTurnFireDamageMultiplier,
-                                                            currentlySelectedCard.maxDamage * player.nextTurnFireDamageMultiplier);
-                        EnemyTakenDamage(currentDamage);
+                        
+                        int currentDamage = Random.Range(currentlySelectedCard.minDamage,
+                                                            currentlySelectedCard.maxDamage);
+                        currentDamage *= player.nextTurnFireDamageMultiplier;
+                        Debug.Log(currentDamage);
+                        Debug.Log(player.nextTurnFireDamageMultiplier);
                         if (currentDamage == 0)
                         {
                             currentDamage++;
                         }
+                        EnemyTakenDamage(currentDamage);
+
                         Debug.Log("You used " + currentlySelectedCard.cardName.ToString() + " for " + currentDamage + " damage.");
                     }
 
@@ -170,25 +181,27 @@ public class CombatManager : MonoBehaviour {
                 if (currentlySelectedCard.cardName == Card.ecardName.OIL)
                 {
                     player.nextTurnFireDamageMultiplier = 3;
+                    Debug.Log("Multiplying by 3");
                 }
             }
-
-
             player.currentEnergy -= currentlySelectedCard.tier * 33;
-            currentlySelectedCard.CreateCard(ChooseRandomCardFromList(player.currentDeck));
+            Debug.Log(player.currentEnergy);
         }
-
     }
+
+
     public void PlayerTakenDamage(int damage)
     {
         player.PlayerTakenDamage(damage);
         player.SetHealthDisplay();
+        Debug.Log("Player Health:" + player.playerHealth);
         playerHpText.text = "Player Health:" + player.playerHealth;
     }
     public void EnemyTakenDamage(int damage)
     {
         enemy.EnemyTakenDamage(damage);
         enemy.SetHealthDisplay();
+        Debug.Log("Enemy Health: " + enemy.enemyHealth);
         enemyHpText.text = "Enemy Health: " + enemy.enemyHealth;
     }
     Card.ecardName ChooseRandomCardFromList(List<Card.ecardName> availableCards)
@@ -268,8 +281,8 @@ public class CombatManager : MonoBehaviour {
                     }
                     if (enemy.currentCard.cardElement == Card.ecardElement.FIRE)
                     {
-                        int damageTaken = Random.Range(enemy.currentCard.minDamage * player.nextTurnFireDamageMultiplier,
-                                                            enemy.currentCard.maxDamage * player.nextTurnFireDamageMultiplier);
+                        int damageTaken = Random.Range(enemy.currentCard.minDamage * enemy.nextTurnFireDamageMultiplier,
+                                                            enemy.currentCard.maxDamage * enemy.nextTurnFireDamageMultiplier);
                         if (damageTaken == 0)
                         {
                             damageTaken++;
@@ -331,6 +344,8 @@ public class CombatManager : MonoBehaviour {
         }
         RectTransform playerEnergySliderRT = playerEnergySlider.GetComponent<RectTransform>();
         playerEnergySliderRT.anchoredPosition = new Vector3(2* player.currentEnergy - 100, 0.0f, 0.0f);
+        //start position =  playerEnergySliderRT.anchoredPosition
+        //end position = new Vector3(2* player.currentEnergy - 100, 0.0f, 0.0f);
 
         RectTransform enemyEnergySliderRT = enemyEnergySlider.GetComponent<RectTransform>();
         enemyEnergySliderRT.anchoredPosition = new Vector3(2 * enemy.currentEnergy - 100, 0.0f, 0.0f);
