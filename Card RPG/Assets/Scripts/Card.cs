@@ -34,27 +34,29 @@ public class Card : MonoBehaviour {
         FIRE,
         POTION,
         OIL,
-        DAGGERSTABI,
-        DAGGERSTABII,
-        DAGGERSTABIII,
-        SWORDSLASHI,
-        SWORDSLASHII,
-        SWORDSLASHIII,
-        MACESMASHI,
-        MACESMASHII,
-        MACESMASHIII,
-        THROWI,
-        THROWII,
-        THROWIII,
-        SHOOTI,
-        SHOOTII,
-        SHOOTIII,
-        CATAPULTI,
-        CATAPULTII,
-        CATAPULTIII
+        ICE_PICK,
+        KITCHEN_KNIFE,
+        SCIMITAR,
+        SHORT_SWORD,
+        VORPAL_BLADE,
+        EXCALIBUR,
+        BIG_ASS_SWORD,
+        GREATSWORD_OF_IVAN,
+        DOOMFIST,
+        STONE,
+        METAL_DONKEY,
+        COW_TREBUCHET,
+        SLINGSHOT,
+        LONGBOW,
+        WRATH_OF_PAT,
+        NO_MANS_GUN,
+        RAILHAMMER,
+        ARMAGEDDON
     }
 
     //General variables
+    public ParticleSystem clickParticle;
+
     public Sprite[] cardSpriteList;
     public ecardClass cardClass;
     public ecardElement cardElement;
@@ -331,75 +333,75 @@ public class Card : MonoBehaviour {
         {
             CreateCard(1, ecardClass.NEXTTURNBOOST, ecardElement.CURSE, newCardName, cardSpriteList[3], "Triples the damage of the next fire attack.", true, true);
         }
-        else if (newCardName == ecardName.DAGGERSTABI)
+        else if (newCardName == ecardName.ICE_PICK)
         {
             CreateCard(1, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[4], "Accurate.\nHalf in BackLine.", 1, 1, true, false);
         }
-        else if (newCardName == ecardName.DAGGERSTABII)
+        else if (newCardName == ecardName.KITCHEN_KNIFE)
         {
             CreateCard(2, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[5], "Accurate.\nHalf in BackLine..", 2, 2, true, false);
         }
-        else if (newCardName == ecardName.DAGGERSTABIII)
+        else if (newCardName == ecardName.SCIMITAR)
         {
             CreateCard(3, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[6], "Accurate\nHalf in BackLine.", 3, 3, true, false);
         }
-        else if (newCardName == ecardName.SWORDSLASHI)
+        else if (newCardName == ecardName.SHORT_SWORD)
         {
             CreateCard(1, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[7], "Innaccurate.\nHalf in BackLine.", 1, 2, true, false);
         }
-        else if (newCardName == ecardName.SWORDSLASHII)
+        else if (newCardName == ecardName.VORPAL_BLADE)
         {
             CreateCard(2, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[8], "Highly Innaccurate.\nHalf in BackLine.", 1, 3, true, false);
         }
-        else if (newCardName == ecardName.SWORDSLASHIII)
+        else if (newCardName == ecardName.EXCALIBUR)
         {
             CreateCard(3, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[9], "Highly Innaccurate.\nHalf in BackLine.", 2, 4, true, false);
         }
-        else if (newCardName == ecardName.MACESMASHI)
+        else if (newCardName == ecardName.BIG_ASS_SWORD)
         {
             CreateCard(1, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[10], "Innaccurate.\nHalf in BackLine.", 2, 3, true, false);
         }
-        else if (newCardName == ecardName.MACESMASHII)
+        else if (newCardName == ecardName.GREATSWORD_OF_IVAN)
         {
             CreateCard(1, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[11], "Highly Innaccurate.\nHalf in BackLine.", 2, 4, true, false);
         }
-        else if (newCardName == ecardName.MACESMASHIII)
+        else if (newCardName == ecardName.DOOMFIST)
         {
             CreateCard(1, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[12], "Highly Innaccurate.\nHalf in BackLine.", 3, 5, true, false);
         }
-        else if (newCardName == ecardName.THROWI)
+        else if (newCardName == ecardName.STONE)
         {
             CreateCard(1, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[13], "Accurate.\nHalf in FrontLine.", 1, 1, false, true);
         }
-        else if (newCardName == ecardName.THROWII)
+        else if (newCardName == ecardName.METAL_DONKEY)
         {
             CreateCard(2, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[14], "Accurate.\nHalf in FrontLine.", 2, 2, false, true);
         }
-        else if (newCardName == ecardName.THROWIII)
+        else if (newCardName == ecardName.COW_TREBUCHET)
         {
             CreateCard(3, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[15], "Accurate.\nHalf in FrontLine.", 3, 3, false, true);
         }
-        else if (newCardName == ecardName.SHOOTI)
+        else if (newCardName == ecardName.SLINGSHOT)
         {
             CreateCard(1, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[16], "Innaccurate.\nHalf in FrontLine.", 1, 2, false, true);
         }
-        else if (newCardName == ecardName.SHOOTII)
+        else if (newCardName == ecardName.LONGBOW)
         {
             CreateCard(2, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[17], "Highly Innaccurate.\nHalf in FrontLine.", 1, 3, false, true);
         }
-        else if (newCardName == ecardName.SHOOTIII)
+        else if (newCardName == ecardName.WRATH_OF_PAT)
         {
             CreateCard(3, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[18], "Highly Innaccurate.\nHalf in FrontLine.", 2, 4, false, true);
         }
-        else if (newCardName == ecardName.CATAPULTI)
+        else if (newCardName == ecardName.NO_MANS_GUN)
         {
             CreateCard(1, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[19], "Innaccurate.\nHalf in FrontLine.", 2, 3, false, true);
         }
-        else if (newCardName == ecardName.CATAPULTII)
+        else if (newCardName == ecardName.RAILHAMMER)
         {
             CreateCard(2, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[20], "Highly Innaccurate.\nHalf in FrontLine.", 2, 4, false, true);
         }
-        else if (newCardName == ecardName.CATAPULTIII)
+        else if (newCardName == ecardName.ARMAGEDDON)
         {
             CreateCard(3, ecardClass.DAMAGE, ecardElement.PHYSICAL, newCardName, cardSpriteList[21], "Highly Innaccurate.\nHalf in FrontLine.", 3, 5, false, true);
         }
@@ -413,7 +415,8 @@ public class Card : MonoBehaviour {
 
     public void onCursorClick()
     {
-        combatManager.ProcessPlayerCardUsing();
+
+        combatManager.ProcessPlayerCardUsing(clickParticle);
     }
 
     public void onCursorExit()

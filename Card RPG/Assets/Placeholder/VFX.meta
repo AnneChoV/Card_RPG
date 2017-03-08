@@ -1,7 +1,13 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: 31b6e8f74680fd84b814ab3a9af8144e
 folderAsset: yes
 timeCreated: 1489011825
+=======
+guid: 012eb83112c1bdd41bece59ffddc23f6
+folderAsset: yes
+timeCreated: 1488932958
+>>>>>>> ArtBranch
 licenseType: Free
 DefaultImporter:
   userData: 
