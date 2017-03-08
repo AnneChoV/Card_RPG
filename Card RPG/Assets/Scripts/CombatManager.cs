@@ -49,7 +49,14 @@ public class CombatManager : MonoBehaviour {
 
     public GameObject playerEnergySlider;
     public GameObject enemyEnergySlider;
+    private RectTransform enemyEnergySliderRT;
+    private RectTransform playerEnergySliderRT;
 
+    private float actualRankMoveLerpSpeed;
+    public float targetRankMoveLerpSpeed;
+
+    float _timeStartedLerping;
+    bool isLerping;
 
     // STARTING FUNCTIONS - READ FROM HERE!
     void Start ()
@@ -61,15 +68,18 @@ public class CombatManager : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.P))
         {
             player.isInFrontLine = !player.isInFrontLine;
+            actualRankMoveLerpSpeed = 0.0f;
             if (player.isInFrontLine == true)
             {
                 playerRangeLocationText.text = "Front Line";
-                characterObject.transform.position = new Vector3(-3.0f, 1.9f, 0.0f);
             }
             else
             {
                 playerRangeLocationText.text = "Back Line";
-                characterObject.transform.position = new Vector3(-6.0f, 1.9f, 0.0f);
+            }
+            for (int x = 0; x < cardHand.Count; x++)
+            {
+                AppearToNerfOutOfRangeCard(cardHand[x]);
             }
         }
         ProcessTimeEvents();
@@ -95,6 +105,16 @@ public class CombatManager : MonoBehaviour {
             SpriteRenderer playerRenderer = playerObject.GetComponent<SpriteRenderer>();
             playerRenderer.color = defaultColour;
         }
+
+        actualRankMoveLerpSpeed = Mathf.Lerp(actualRankMoveLerpSpeed, targetRankMoveLerpSpeed, 4.0f * Time.deltaTime);
+        if (player.isInFrontLine)
+        {
+            characterObject.transform.position = Vector3.Lerp(characterObject.transform.position, new Vector3(-3.0f, 1.9f, 0.0f), actualRankMoveLerpSpeed * Time.deltaTime);
+        }
+        else
+        {
+            characterObject.transform.position = Vector3.Lerp(characterObject.transform.position, new Vector3(-8.0f, 1.9f, 0.0f), actualRankMoveLerpSpeed * Time.deltaTime);
+        }
     }
  
     //ON UPDATE FUNCTIONS:
@@ -110,6 +130,7 @@ public class CombatManager : MonoBehaviour {
     {
         if (currentlySelectedCard.tier * 33 < player.currentEnergy) //if we have the energy to use the card
         {
+<<<<<<< HEAD
             //Whatever happens now, this card is going out. Open the flood gates for J_U_I_C_E
             FX_CardUse("Player");
             //Make the cool bling shit happen
@@ -117,11 +138,14 @@ public class CombatManager : MonoBehaviour {
             clickParticle.transform.parent = null;
 
             if (currentlySelectedCard.IsUseableShortRange == true && player.isInFrontLine == false)
+=======
+            if (currentlySelectedCard.IsUseableShortRange == false && player.isInFrontLine == true)
+>>>>>>> Amber-CardClass
             {
                 currentlySelectedCard.minDamage /= 2;
                 currentlySelectedCard.maxDamage /= 2;
             }
-            else if (currentlySelectedCard.IsUseableLongRange == true && player.isInFrontLine == true)
+            else if (currentlySelectedCard.IsUseableLongRange == false && player.isInFrontLine == false)
             {
                 currentlySelectedCard.minDamage /= 2;
                 currentlySelectedCard.maxDamage /= 2;
@@ -141,23 +165,30 @@ public class CombatManager : MonoBehaviour {
                             int currentDamage = Random.Range(currentlySelectedCard.minDamage * player.nextTurnPhysicalDamageMultiplier,
                                                                 currentlySelectedCard.maxDamage * player.nextTurnPhysicalDamageMultiplier);
 
-                            Debug.Log("You used " + currentlySelectedCard.cardName.ToString() + " for " + currentDamage + " damage.");
                             if (currentDamage == 0)
                             {
                                 currentDamage++;
                             }
+
+                            Debug.Log("You used " + currentlySelectedCard.cardName.ToString() + " for " + currentDamage + " damage.");
+
                             EnemyTakenDamage(currentDamage);
                         }
                     }
                     if (currentlySelectedCard.cardElement == Card.ecardElement.FIRE)
                     {
-                        int currentDamage = Random.Range(currentlySelectedCard.minDamage * player.nextTurnFireDamageMultiplier,
-                                                            currentlySelectedCard.maxDamage * player.nextTurnFireDamageMultiplier);
-                        EnemyTakenDamage(currentDamage);
+                        
+                        int currentDamage = Random.Range(currentlySelectedCard.minDamage,
+                                                            currentlySelectedCard.maxDamage);
+                        currentDamage *= player.nextTurnFireDamageMultiplier;
+                        Debug.Log(currentDamage);
+                        Debug.Log(player.nextTurnFireDamageMultiplier);
                         if (currentDamage == 0)
                         {
                             currentDamage++;
                         }
+                        EnemyTakenDamage(currentDamage);
+
                         Debug.Log("You used " + currentlySelectedCard.cardName.ToString() + " for " + currentDamage + " damage.");
                     }
 
@@ -186,25 +217,63 @@ public class CombatManager : MonoBehaviour {
                 if (currentlySelectedCard.cardName == Card.ecardName.OIL)
                 {
                     player.nextTurnFireDamageMultiplier = 3;
+                    Debug.Log("Multiplying by 3");
                 }
             }
-
-
+            
             player.currentEnergy -= currentlySelectedCard.tier * 33;
-            currentlySelectedCard.CreateCard(ChooseRandomCardFromList(player.currentDeck));
-        }
 
+            currentlySelectedCard.CreateCard(ChooseRandomCardFromList(player.currentDeck)); //Picks a card from the list.
+            AppearToNerfOutOfRangeCard(currentlySelectedCard);
+        }
     }
+
+    public void AppearToNerfOutOfRangeCard(Card card)
+    {
+        if (!player.isInFrontLine && card.IsUseableShortRange && !card.IsUseableLongRange)
+        {
+            //Card is only usable from the front line. We need to show that it's nerfed atm.
+            card.tCardDamage.color = Color.red;
+            int currentDamage;
+            int.TryParse(card.tCardDamage.text, out currentDamage);
+            currentDamage /= 2;
+            if (currentDamage == 0)
+            {
+                currentDamage++;
+            }      
+            card.tCardDamage.text = currentDamage.ToString();
+        } else  if (player.isInFrontLine && !card.IsUseableShortRange && card.IsUseableLongRange)
+        {
+            //Card is only usable from the front line. We need to show that it's nerfed atm.
+            card.tCardDamage.color = Color.red;
+            int currentDamage;
+            int.TryParse(card.tCardDamage.text, out currentDamage);
+            currentDamage /= 2;
+            if (currentDamage == 0)
+            {
+                currentDamage++;
+            }
+            card.tCardDamage.text = currentDamage.ToString();
+        }
+        else
+        {
+            card.tCardDamage.color = Color.black;
+            card.tCardDamage.text = card.minDamage.ToString();
+        }
+    }
+
     public void PlayerTakenDamage(int damage)
     {
         player.PlayerTakenDamage(damage);
         player.SetHealthDisplay();
+        Debug.Log("Player Health:" + player.playerHealth);
         playerHpText.text = "Player Health:" + player.playerHealth;
     }
     public void EnemyTakenDamage(int damage)
     {
         enemy.EnemyTakenDamage(damage);
         enemy.SetHealthDisplay();
+        Debug.Log("Enemy Health: " + enemy.enemyHealth);
         enemyHpText.text = "Enemy Health: " + enemy.enemyHealth;
     }
     Card.ecardName ChooseRandomCardFromList(List<Card.ecardName> availableCards)
@@ -287,8 +356,8 @@ public class CombatManager : MonoBehaviour {
                     }
                     if (enemy.currentCard.cardElement == Card.ecardElement.FIRE)
                     {
-                        int damageTaken = Random.Range(enemy.currentCard.minDamage * player.nextTurnFireDamageMultiplier,
-                                                            enemy.currentCard.maxDamage * player.nextTurnFireDamageMultiplier);
+                        int damageTaken = Random.Range(enemy.currentCard.minDamage * enemy.nextTurnFireDamageMultiplier,
+                                                            enemy.currentCard.maxDamage * enemy.nextTurnFireDamageMultiplier);
                         if (damageTaken == 0)
                         {
                             damageTaken++;
@@ -348,12 +417,9 @@ public class CombatManager : MonoBehaviour {
                 enemy.timeUntilNextEnergy = enemy.timeRequiredForEnergyRegen;
             }
         }
-        RectTransform playerEnergySliderRT = playerEnergySlider.GetComponent<RectTransform>();
-        playerEnergySliderRT.anchoredPosition = new Vector3(2* player.currentEnergy - 100, 0.0f, 0.0f);
 
-        RectTransform enemyEnergySliderRT = enemyEnergySlider.GetComponent<RectTransform>();
-        enemyEnergySliderRT.anchoredPosition = new Vector3(2 * enemy.currentEnergy - 100, 0.0f, 0.0f);
-
+        playerEnergySliderRT.anchoredPosition = Vector2.Lerp(playerEnergySliderRT.anchoredPosition, new Vector3(2 * player.currentEnergy - 100, playerEnergySliderRT.anchoredPosition.y), 0.2f);
+        enemyEnergySliderRT.anchoredPosition = Vector2.Lerp(enemyEnergySliderRT.anchoredPosition, new Vector3(2 * enemy.currentEnergy - 100, enemyEnergySliderRT.anchoredPosition.y), 0.2f);
     }
 
     //  ON START FUNCTIONS
@@ -381,6 +447,8 @@ public class CombatManager : MonoBehaviour {
         SetUpPlayerCards();
         enemy.currentCard.CreateCard(ChooseRandomCardFromList(enemy.currentDeck));  //give enemy a random card from their deck to use first.
 
+        playerEnergySliderRT = playerEnergySlider.GetComponent<RectTransform>();
+        enemyEnergySliderRT = enemyEnergySlider.GetComponent<RectTransform>();
     }
     void SetUpPlayerCards()
     {
@@ -394,7 +462,7 @@ public class CombatManager : MonoBehaviour {
             Card currentCardClass = currentCard.GetComponent<Card>();
             RectTransform currentCardRT = currentCard.GetComponent<RectTransform>();
             currentCardRT.localScale = new Vector3(2.0f, 2.0f, 2.0f);
-            currentCardRT.anchoredPosition = new Vector3(-300.0f + x * 150, -150.0f, 0.0f);
+            currentCardRT.anchoredPosition = new Vector3(-225.0f + x * 150, -150.0f, 0.0f);
 
             currentCardClass.combatManager = this;
 
@@ -402,6 +470,7 @@ public class CombatManager : MonoBehaviour {
 
             //Turn it into a random card from the players deck and give it stats
             cardHand[x].CreateCard(ChooseRandomCardFromList(player.currentDeck)); //Picks a card from the list.
+            AppearToNerfOutOfRangeCard(cardHand[x]);
         }
     }
     void PlayRandomEnemyCard()
