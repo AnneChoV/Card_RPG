@@ -116,7 +116,8 @@ public class Card : MonoBehaviour {
         IsUseableLongRange = newIsUseableLongRange;
         cardName = newCardName;
 
-        tCardName.text = cardName.ToString();
+        string cardNamet = newCardName.ToString().Replace("_", " ");
+        tCardName.text = cardNamet;
         tCardDescription.text = newDescription;
         tCardTier.text = null;
         if (newCardElement == ecardElement.PHYSICAL)
@@ -171,7 +172,8 @@ public class Card : MonoBehaviour {
         minDamage = maxDamage = 0;
         cardName = newCardName;
 
-        tCardName.text = cardName.ToString();
+        string cardNamet = newCardName.ToString().Replace("_", " ");
+        tCardName.text = cardNamet;
         tCardDescription.text = newDescription;
         tCardTier.text = null;
         if (newCardElement == ecardElement.PHYSICAL)
@@ -216,7 +218,8 @@ public class Card : MonoBehaviour {
         IsUseableLongRange = newIsUseableLongRange;
         cardName = newCardName;
 
-        tCardName.text = newCardName.ToString();
+        string cardNamet = newCardName.ToString().Replace("_", " ");
+        tCardName.text = cardNamet;
         tCardDamage.text = newMinDamage.ToString();
         tCardDescription.text = newDescription;
         cardSprite = newCardSprite;
@@ -281,7 +284,8 @@ public class Card : MonoBehaviour {
         minDamage = newMinDamage;     //For now we do specific damage anyway.
         maxDamage = newMaxDamage;
         cardName = newCardName;
-        tCardName.text = cardName.ToString();
+        string cardNamet = newCardName.ToString().Replace("_", " ");
+        tCardName.text = cardNamet;
         tCardDamage.text = newMinDamage.ToString();
         tCardDescription.text = newDescription;
         //tCardElement.text = newCardElement.ToString();
