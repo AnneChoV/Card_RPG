@@ -6,9 +6,8 @@ using UnityEngine.UI;
 
 public class CombatManager : MonoBehaviour {
 
-    //Make cards highlight while usable.
-    //make cards go up and scale while selected.
-    //oil placeholder range thing - if we're lucky this is done. >_<
+    //Change the colour
+    //Make it so the animations dont fuck up.
 
     //Hacky fun times
     public Color oiledColour;
@@ -44,9 +43,6 @@ public class CombatManager : MonoBehaviour {
 
     private float actualRankMoveLerpSpeed;
     public float targetRankMoveLerpSpeed;
-
-    float _timeStartedLerping;
-    bool isLerping;
 
     // STARTING FUNCTIONS - READ FROM HERE!
     void Start ()

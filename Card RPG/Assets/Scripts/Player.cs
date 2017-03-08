@@ -53,7 +53,11 @@ public class Player : MonoBehaviour {
         numFullHearts = playerHealth / 4;
         if (playerHealth < 0)
         {
-            return;
+            for (int i = 0; i < heartDisplays.Length; i++)
+            {
+                heartDisplays[i].sprite = heartSprites[0];
+            }
+                return;
         }
 
         for (int i = 0; i < heartDisplays.Length; i++)
