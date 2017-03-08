@@ -130,7 +130,6 @@ public class CombatManager : MonoBehaviour {
     {
         if (currentlySelectedCard.tier * 33 < player.currentEnergy) //if we have the energy to use the card
         {
-<<<<<<< HEAD
             //Whatever happens now, this card is going out. Open the flood gates for J_U_I_C_E
             FX_CardUse("Player");
             //Make the cool bling shit happen
@@ -138,9 +137,7 @@ public class CombatManager : MonoBehaviour {
             clickParticle.transform.parent = null;
 
             if (currentlySelectedCard.IsUseableShortRange == true && player.isInFrontLine == false)
-=======
             if (currentlySelectedCard.IsUseableShortRange == false && player.isInFrontLine == true)
->>>>>>> Amber-CardClass
             {
                 currentlySelectedCard.minDamage /= 2;
                 currentlySelectedCard.maxDamage /= 2;
