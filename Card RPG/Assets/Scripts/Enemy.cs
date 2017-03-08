@@ -33,7 +33,7 @@ public class Enemy : MonoBehaviour {
         GameObject currentCardGO = Instantiate(cardPrefab, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity, canvas.transform) as GameObject;
         currentCard = currentCardGO.GetComponent<Card>();
         RectTransform currentCardRT = (RectTransform)currentCard.transform;
-        currentCardRT.anchoredPosition = new Vector3(300.0f, 220.0f, 0.0f);
+        currentCardRT.anchoredPosition = new Vector3(8000.0f, 220.0f, 0.0f);
         SetUpCombatStats();
 
         SetHealthDisplay();

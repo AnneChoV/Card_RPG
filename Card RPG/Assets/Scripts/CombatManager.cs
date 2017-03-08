@@ -457,14 +457,13 @@ public class CombatManager : MonoBehaviour {
                     enemy.timeUntilNextEnergy = enemy.timeRequiredForEnergyRegen;
                 }
             }
-<<<<<<< HEAD
+
             RectTransform playerEnergySliderRT = playerEnergySlider.GetComponent<RectTransform>();
             playerEnergySliderRT.anchoredPosition = new Vector3(2 * player.currentEnergy - 100, 0.0f, 0.0f);
 
             RectTransform enemyEnergySliderRT = enemyEnergySlider.GetComponent<RectTransform>();
             enemyEnergySliderRT.anchoredPosition = new Vector3(2 * enemy.currentEnergy - 100, 0.0f, 0.0f);
-=======
->>>>>>> Amber-CardClass
+
         }
 
         playerEnergySliderRT.anchoredPosition = Vector2.Lerp(playerEnergySliderRT.anchoredPosition, new Vector3(2 * player.currentEnergy - 100, playerEnergySliderRT.anchoredPosition.y), 0.2f);
