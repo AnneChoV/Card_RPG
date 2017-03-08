@@ -17,6 +17,7 @@ public class EnemyStats : MonoBehaviour {
 
     private Vector3 min, max;
 
+    TextBoxManager textBoxManager;
     private void Awake()
     {
         myTransform = transform;
@@ -36,6 +37,7 @@ public class EnemyStats : MonoBehaviour {
 
         target = GameObject.FindGameObjectWithTag("Player").transform; // Find player
         spriteRenderer = GetComponent<SpriteRenderer>();
+        textBoxManager = FindObjectOfType<TextBoxManager>();
     }
 	
 	// Update is called once per frame
@@ -76,6 +78,9 @@ public class EnemyStats : MonoBehaviour {
         {
             colWithPlayer = false;
             transform.Find("Button").gameObject.SetActive(false);
+            FindObjectOfType<Canvas>().transform.Find("Dialogue Box").gameObject.SetActive(false);
+            textBoxManager.currentLine = 0;
+            Debug.Log(textBoxManager.currentLine);
         }
     }
 

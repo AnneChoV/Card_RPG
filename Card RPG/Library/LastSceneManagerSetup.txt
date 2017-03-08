@@ -1,8 +1,4 @@
 sceneSetups:
-<<<<<<< HEAD
 - path: Assets/Scenes/Test_Map.unity
-=======
-- path: Assets/Scenes/Test_Combat.unity
->>>>>>> Amber-CardClass
   isLoaded: 1
   isActive: 1

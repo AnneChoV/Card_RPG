@@ -20,6 +20,8 @@ public class CombatManager : MonoBehaviour {
     public ParticleSystem playerParticles;
     public ParticleSystem enemyParticles;
 
+    SceneChanger sceneChanger;
+
     //Prefabs
     [Header("Prefabs")]
     public GameObject cardPrefab;
@@ -49,6 +51,11 @@ public class CombatManager : MonoBehaviour {
 
     public GameObject playerEnergySlider;
     public GameObject enemyEnergySlider;
+
+    public GameObject winState;
+    public GameObject loseState;
+    private bool playerWon = false;
+    private bool playerLost = false;
 
 
     // STARTING FUNCTIONS - READ FROM HERE!
@@ -200,12 +207,22 @@ public class CombatManager : MonoBehaviour {
         player.PlayerTakenDamage(damage);
         player.SetHealthDisplay();
         playerHpText.text = "Player Health:" + player.playerHealth;
+
+        if (player.playerHealth >= 0)
+        {
+
+        }
     }
     public void EnemyTakenDamage(int damage)
     {
         enemy.EnemyTakenDamage(damage);
         enemy.SetHealthDisplay();
         enemyHpText.text = "Enemy Health: " + enemy.enemyHealth;
+
+        if (player.playerHealth >= 0)
+        {
+
+        }
     }
     Card.ecardName ChooseRandomCardFromList(List<Card.ecardName> availableCards)
     {
@@ -418,5 +435,32 @@ public class CombatManager : MonoBehaviour {
         {
             playerParticles.Emit(20);
         }
+    }
+
+    // WIN OR LOSE STATES
+    void PlayerWon()
+    {
+        winState.SetActive(true);
+        playerWon = true;
+    }
+
+    void PlayerLost()
+    {
+        loseState.SetActive(true);
+        playerLost = true;
+    }
+
+    IEnumerator PlayerWonEnum()
+    {
+        yield return new WaitForSeconds(3.0f);
+
+        sceneChanger.SceneLoad("Test_Map");
+    }
+
+    IEnumerator PlayerLostEnum()
+    {
+        yield return new WaitForSeconds(3.0f);
+
+        sceneChanger.SceneLoad("Test_Map");
     }
 }

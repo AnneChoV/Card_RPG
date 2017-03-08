@@ -7,6 +7,7 @@ public class TextBoxManager : MonoBehaviour {
 
     SceneChanger sceneChanger;
     public GameObject textBox;
+    public GameObject arrow;
     public Text text;
 
     public TextAsset textFile;
@@ -41,6 +42,16 @@ public class TextBoxManager : MonoBehaviour {
         {
             currentLine += 1;
         }	
+
+        if (currentLine < endAtLine)
+        {
+            arrow.SetActive(true);
+        }
+
+        if (currentLine == endAtLine)
+        {
+            arrow.SetActive(false);
+        }
 
         if (currentLine > endAtLine)
         {
