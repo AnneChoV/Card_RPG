@@ -31,28 +31,25 @@ public class Player : MonoBehaviour {
 
     int numFullHearts;
 
+    PlayerStats playerStats;
+
     // Use this for initialization
     void Start () {
-
-        Debug.Log("Starto");
+        playerStats = FindObjectOfType<PlayerStats>();
+        playerHealth = playerStats.playerHealth;
         SetHealthDisplay();
-        //for (int i = 0; i <= numFullHearts; i++)
-        //{
-        //    //GameObject currentHeart = Instantiate(heart3Prefab, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity, canvas.transform);
-        //    //currentHeart.transform.localScale = new Vector3(100.0f, 100.0f, 100.0f);
-
-        //    //RectTransform currentHeartRT = currentHeart.GetComponent<RectTransform>();
-        //    //currentHeartRT.anchoredPosition = new Vector3(-560.0f + 52.0f*i, -20.0f);
-
-            
-        //}
     }
 	
     public void SetHealthDisplay() //WILL NOT SHOW WITH OVER 16 HP.
     {
         numFullHearts = playerHealth / 4;
+
         if (playerHealth < 0)
         {
+            for (int i = 0; i < heartDisplays.Length; i++)
+            {
+                heartDisplays[i].sprite = heartSprites[0];
+            }
             return;
         }
 

@@ -21,6 +21,7 @@ public class CombatManager : MonoBehaviour {
     public ParticleSystem enemyParticles;
 
     SceneChanger sceneChanger;
+    PlayerStats playerStats;
 
     //Prefabs
     [Header("Prefabs")]
@@ -33,6 +34,8 @@ public class CombatManager : MonoBehaviour {
     public Enemy enemy;
     public GameObject enemyObject;
     public GameObject playerObject;
+    public GameObject winState;
+    public GameObject loseState;
 
     //Player Combat Cards
     [Header("Player Combat Cards")]
@@ -52,15 +55,17 @@ public class CombatManager : MonoBehaviour {
     public GameObject playerEnergySlider;
     public GameObject enemyEnergySlider;
 
-    public GameObject winState;
-    public GameObject loseState;
+
     private bool GameOver = false; 
+
+
 
 
     // STARTING FUNCTIONS - READ FROM HERE!
     void Start ()
     {
         sceneChanger = FindObjectOfType<SceneChanger>();
+        playerStats = FindObjectOfType<PlayerStats>();
         SetPlayerAndEnemyStats();
     }	
 	void Update ()
@@ -222,6 +227,7 @@ public class CombatManager : MonoBehaviour {
         if (enemy.enemyHealth <= 0)
         {
             PlayerWon();
+            playerStats.playerHealth = player.playerHealth;
         }
     }
     Card.ecardName ChooseRandomCardFromList(List<Card.ecardName> availableCards)
