@@ -325,7 +325,7 @@ public class Card : MonoBehaviour {
         }
         else if (newCardName == ecardName.FIRE)
         {
-            CreateCard(1, ecardClass.DAMAGE, ecardElement.FIRE, newCardName, cardSpriteList[2], "1 Damage.", 1, 1, true, true);
+            CreateCard(1, ecardClass.DAMAGE, ecardElement.FIRE, newCardName, cardSpriteList[2], "Ignites Oil", 1, 1, true, true);
         }
         else if(newCardName == ecardName.OIL)
         {

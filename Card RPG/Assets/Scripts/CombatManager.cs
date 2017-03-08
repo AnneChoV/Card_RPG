@@ -12,6 +12,8 @@ public class CombatManager : MonoBehaviour {
     //Hacky fun times
     public Color oiledColour;
     public Color defaultColour;
+    public Color cardRed;
+    public Color cardGreen;
 
     //Prefabs
     public GameObject cardPrefab;
@@ -174,9 +176,9 @@ public class CombatManager : MonoBehaviour {
             {
 
                 PlayerTakenDamage(-(Random.Range(currentlySelectedCard.minDamage, currentlySelectedCard.maxDamage)));
-                if (player.playerHealth > 12)
+                if (player.playerHealth > 16)
                 {
-                    player.playerHealth = 12;
+                    player.playerHealth = 16;
                 }
             }
             else if (currentlySelectedCard.cardClass == Card.ecardClass.BLOCK)
@@ -200,7 +202,10 @@ public class CombatManager : MonoBehaviour {
             player.currentEnergy -= currentlySelectedCard.tier * 33;
 
             currentlySelectedCard.CreateCard(ChooseRandomCardFromList(player.currentDeck)); //Picks a card from the list.
-            AppearToNerfOutOfRangeCard(currentlySelectedCard);
+            for (int i = 0; i < cardHand.Count; i++)
+            {
+                AppearToNerfOutOfRangeCard(cardHand[i]);
+            }
         }
     }
 
@@ -209,7 +214,7 @@ public class CombatManager : MonoBehaviour {
         if (!player.isInFrontLine && card.IsUseableShortRange && !card.IsUseableLongRange)
         {
             //Card is only usable from the front line. We need to show that it's nerfed atm.
-            card.tCardDamage.color = Color.red;
+            card.tCardDamage.color = cardRed;
             int currentDamage;
             int.TryParse(card.tCardDamage.text, out currentDamage);
             currentDamage /= 2;
@@ -221,7 +226,7 @@ public class CombatManager : MonoBehaviour {
         } else  if (player.isInFrontLine && !card.IsUseableShortRange && card.IsUseableLongRange)
         {
             //Card is only usable from the front line. We need to show that it's nerfed atm.
-            card.tCardDamage.color = Color.red;
+            card.tCardDamage.color = cardRed;
             int currentDamage;
             int.TryParse(card.tCardDamage.text, out currentDamage);
             currentDamage /= 2;
@@ -235,6 +240,23 @@ public class CombatManager : MonoBehaviour {
         {
             card.tCardDamage.color = Color.black;
             card.tCardDamage.text = card.minDamage.ToString();
+        }
+
+        if (card.cardName == Card.ecardName.FIRE)
+        {
+            int currentDamage;
+            int.TryParse(card.tCardDamage.text, out currentDamage);
+            currentDamage *= player.nextTurnFireDamageMultiplier;
+
+            card.tCardDamage.text = currentDamage.ToString();
+            if (player.nextTurnFireDamageMultiplier != 1)
+            {
+                card.tCardDamage.color = cardGreen;
+            }
+            else
+            {
+                card.tCardDamage.color = Color.black;
+            }
         }
     }
 
@@ -344,9 +366,9 @@ public class CombatManager : MonoBehaviour {
             else if (enemy.currentCard.cardClass == Card.ecardClass.HEAL)   //HEAL
             {
                 EnemyTakenDamage(-(Random.Range(enemy.currentCard.minDamage, enemy.currentCard.maxDamage)));
-                if (enemy.enemyHealth > 12)
+                if (enemy.enemyHealth > 16)
                 {
-                    enemy.enemyHealth = 12;
+                    enemy.enemyHealth = 16;
                 }
             }
             else if (enemy.currentCard.cardClass == Card.ecardClass.BLOCK)
