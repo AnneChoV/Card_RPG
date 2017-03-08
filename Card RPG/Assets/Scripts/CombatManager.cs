@@ -129,7 +129,7 @@ public class CombatManager : MonoBehaviour {
         if (currentlySelectedCard.tier * 33 < player.currentEnergy) //if we have the energy to use the card
         {
             //Whatever happens now, this card is going out. Open the flood gates for J_U_I_C_E
-            FX_CardUse("Player");
+
             //Make the cool bling shit happen
             clickParticle.Emit(1);
             clickParticle.transform.parent = null;
@@ -148,6 +148,7 @@ public class CombatManager : MonoBehaviour {
             if (currentlySelectedCard.cardClass == Card.ecardClass.DAMAGE)  //DAMAGE
             {
                 //NEED TO DO CHECKS FOR IF IN SHORT RANGE OR LONG RANGE.
+                FX_CardUse("Player");
                 if (enemy.isBlocking == true)
                 {
                     enemy.isBlocking = false;
@@ -211,6 +212,7 @@ public class CombatManager : MonoBehaviour {
                 //Will have to do these by name, because different effects
                 if (currentlySelectedCard.cardName == Card.ecardName.OIL)
                 {
+                    FX_CardUse("Player");
                     player.nextTurnFireDamageMultiplier = 3;
                     Debug.Log("Multiplying by 3");
                 }
@@ -335,11 +337,12 @@ public class CombatManager : MonoBehaviour {
         else
         {
             Debug.Log("Enemy using: " + enemy.currentCard.cardName.ToString());
-            //Enemy juice time
-            FX_CardUse("Enemy");
+
 
             if (enemy.currentCard.cardClass == Card.ecardClass.DAMAGE)  //DAMAGE
             {
+                //Enemy juice time
+                FX_CardUse("Enemy");
                 if (enemy.currentCard.IsUseableShortRange == true && enemy.isInFrontLine == false)
                 {
                     //float minDamage = enemy.currentCard.minDamage;
@@ -403,6 +406,8 @@ public class CombatManager : MonoBehaviour {
                 //Will have to do these by name, because different effects
                 if (enemy.currentCard.cardName == Card.ecardName.OIL)
                 {
+                    //Enemy juice time
+                    FX_CardUse("Enemy");
                     enemy.nextTurnFireDamageMultiplier = 3;
                 }
             }
