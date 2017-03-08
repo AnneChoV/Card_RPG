@@ -12,6 +12,17 @@ public class SoundManager : MonoBehaviour
     public AudioClip mainTheme;
     public AudioClip battleTheme;
 
+    public AudioClip buttonClick;
+    public AudioClip dialogueSound;
+    public AudioClip stanceChange;
+    public AudioClip rangedAttack;
+    public AudioClip meleeAttack;
+    public AudioClip unconcious;
+    public AudioClip block;
+    public AudioClip heal;
+    public AudioClip oil;
+    public AudioClip fire;
+
     private AudioClip selectedTheme;
     //public AudioClip[] starClicks;
 
@@ -56,14 +67,48 @@ public class SoundManager : MonoBehaviour
     }
 
 
-    //Used to play single sound clips.
-    public void PlaySingle(AudioClip clip)
+    public void ButtonClick()
     {
-        ////Set the clip of our efxSource audio source to the clip passed in as a parameter.
-        //efxSource.clip = clip;
+        efxSource.PlayOneShot(buttonClick);
+    }
 
-        //Play the clip.
-        efxSource.PlayOneShot(clip);
+    public void DialogueSound()
+    {
+        efxSource.PlayOneShot(dialogueSound, 3.0f);
+    }
+
+    public void StanceChange()
+    {
+        efxSource.PlayOneShot(stanceChange);
+    }
+    public void RangedAttack()
+    {
+        efxSource.PlayOneShot(rangedAttack);
+    }
+    public void MeleeAttack()
+    {
+        efxSource.PlayOneShot(meleeAttack);
+    }
+    public void Unconcious()
+    {
+        efxSource.PlayOneShot(unconcious);
+    }
+
+    public void Block()
+    {
+        efxSource.PlayOneShot(block);
+    }
+    public void Heal()
+    {
+        efxSource.PlayOneShot(heal);
+    }
+    public void Oil()
+    {
+        efxSource.PlayOneShot(oil);
+    }
+    public void Fire()
+    {
+        efxSource.PlayOneShot(fire);
     }
 
     //public void PlayStar()

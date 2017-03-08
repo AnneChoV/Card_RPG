@@ -53,8 +53,6 @@ public class Player : MonoBehaviour {
 
             return;
 
-                return;
-
         }
 
         for (int i = 0; i < heartDisplays.Length; i++)

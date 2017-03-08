@@ -33,7 +33,7 @@ public class PlayerExploration : MonoBehaviour {
 
         enemy = FindObjectOfType<EnemyStats>();
         sceneChanger = FindObjectOfType<SceneChanger>();
-
+       
         gameStateManager = FindObjectOfType<GameStateManager>();
 
         if (gameStateManager.Map_1_to_3 == true && SceneManager.GetActiveScene().name == "Test_Map")
@@ -83,6 +83,7 @@ public class PlayerExploration : MonoBehaviour {
             if (enemy.colWithPlayer == true)
             {
                 DialogueBox.SetActive(true);
+                
             }
         }
 

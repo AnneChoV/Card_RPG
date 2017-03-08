@@ -46,6 +46,7 @@ public class SceneChanger : MonoBehaviour
 
     public void ContinueButton()
     {
+        soundManager.ButtonClick();
         SceneLoad("Test_Map");
     }
 

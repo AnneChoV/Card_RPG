@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class PauseMenuManager : MonoBehaviour {
 
+    SoundManager soundManager;
     public GameObject InventoryPanel;
     public GameObject CardPanel;
     public GameObject OptionPanel;
@@ -17,7 +18,7 @@ public class PauseMenuManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+        soundManager = FindObjectOfType<SoundManager>();
 	}
 	
 	// Update is called once per frame
@@ -27,6 +28,8 @@ public class PauseMenuManager : MonoBehaviour {
 
     public void PauseMenuButton()
     {
+        soundManager.ButtonClick();
+
         if (ButtonState == false)
         {
             InventoryPanel.SetActive(true);

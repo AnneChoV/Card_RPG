@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class TextBoxManager : MonoBehaviour {
 
+    SoundManager soundManager;
     SceneChanger sceneChanger;
     public GameObject textBox;
     public GameObject arrow;
@@ -20,6 +21,7 @@ public class TextBoxManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        soundManager = FindObjectOfType<SoundManager>();
         player = FindObjectOfType<PlayerStats>();
 
         if (textFile != null)
@@ -40,6 +42,7 @@ public class TextBoxManager : MonoBehaviour {
         
         if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown("t"))
         {
+            soundManager.DialogueSound();
             currentLine += 1;
         }	
 

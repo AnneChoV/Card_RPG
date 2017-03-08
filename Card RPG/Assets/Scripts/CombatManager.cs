@@ -22,6 +22,7 @@ public class CombatManager : MonoBehaviour {
     public ParticleSystem enemyParticles;
 
     SceneChanger sceneChanger;
+    SoundManager soundManager;
     PlayerStats playerStats;
 
     //Prefabs
@@ -71,12 +72,14 @@ public class CombatManager : MonoBehaviour {
     {
         sceneChanger = FindObjectOfType<SceneChanger>();
         playerStats = FindObjectOfType<PlayerStats>();
+        soundManager = FindObjectOfType<SoundManager>();
         SetPlayerAndEnemyStats();
     }	
 	void Update ()
     {
         if (Input.GetKeyDown(KeyCode.P))
         {
+            soundManager.StanceChange();
             player.isInFrontLine = !player.isInFrontLine;
             actualRankMoveLerpSpeed = 0.0f;
             if (player.isInFrontLine == true)
@@ -146,7 +149,39 @@ public class CombatManager : MonoBehaviour {
             clickParticle.Emit(1);
             clickParticle.transform.parent = null;
 
-            if (currentlySelectedCard.IsUseableShortRange == true && player.isInFrontLine == false)
+            if (currentlySelectedCard.IsUseableLongRange == true && currentlySelectedCard.IsUseableShortRange == false)
+            {
+                //long range only 
+                soundManager.RangedAttack();
+            }
+            else if (currentlySelectedCard.IsUseableLongRange == false && currentlySelectedCard.IsUseableShortRange == true)
+            {
+                //short range only 
+                soundManager.MeleeAttack();
+            }
+            else
+            {
+                if (currentlySelectedCard.cardName == Card.ecardName.OIL)
+                {
+                    soundManager.Oil();
+                }
+                if (currentlySelectedCard.cardName == Card.ecardName.POTION)
+                {
+                    soundManager.Heal();
+                }
+                if (currentlySelectedCard.cardName == Card.ecardName.BLOCK)
+                {
+                    soundManager.Block();
+                }
+                if (currentlySelectedCard.cardName == Card.ecardName.FIRE)
+                {
+                    soundManager.Fire();
+                }
+            }
+
+
+
+            //if (currentlySelectedCard.IsUseableShortRange == true && player.isInFrontLine == false)
             if (currentlySelectedCard.IsUseableShortRange == false && player.isInFrontLine == true)
             {
                 currentlySelectedCard.minDamage /= 2;
@@ -351,18 +386,52 @@ public class CombatManager : MonoBehaviour {
     }
     void ProcessEnemyCardUsing()
     {
+
+       
+
         if (enemy.currentEnergy < enemy.currentCard.tier * 33)   //check the enemy has enough energy to play their card.
         {
             return;
         }
         else
         {
+            if (enemy.currentCard.IsUseableLongRange == true && enemy.currentCard.IsUseableShortRange == false)
+            {
+                //long range only 
+                soundManager.RangedAttack();
+            }
+            else if (enemy.currentCard.IsUseableLongRange == false && enemy.currentCard.IsUseableShortRange == true)
+            {
+                //short range only 
+                soundManager.MeleeAttack();
+            }
+            else
+            {
+                if (enemy.currentCard.cardName == Card.ecardName.OIL)
+                {
+                    soundManager.Oil();
+                }
+                if (enemy.currentCard.cardName == Card.ecardName.POTION)
+                {
+                    soundManager.Heal();
+                }
+                if (enemy.currentCard.cardName == Card.ecardName.BLOCK)
+                {
+                    soundManager.Block();
+                }
+                if (enemy.currentCard.cardName == Card.ecardName.FIRE)
+                {
+                    soundManager.Fire();
+                }
+            }
+
             Debug.Log("Enemy using: " + enemy.currentCard.cardName.ToString());
             //Enemy juice time
-            FX_CardUse("Enemy");
+
 
             if (enemy.currentCard.cardClass == Card.ecardClass.DAMAGE)  //DAMAGE
             {
+                FX_CardUse("Enemy");
                 if (enemy.currentCard.IsUseableShortRange == true && enemy.isInFrontLine == false)
                 {
                     //float minDamage = enemy.currentCard.minDamage;
@@ -426,6 +495,7 @@ public class CombatManager : MonoBehaviour {
                 //Will have to do these by name, because different effects
                 if (enemy.currentCard.cardName == Card.ecardName.OIL)
                 {
+                    FX_CardUse("Enemy");
                     enemy.nextTurnFireDamageMultiplier = 3;
                 }
             }
