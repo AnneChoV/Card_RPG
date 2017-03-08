@@ -54,13 +54,13 @@ public class CombatManager : MonoBehaviour {
 
     public GameObject winState;
     public GameObject loseState;
-    private bool playerWon = false;
-    private bool playerLost = false;
+    private bool GameOver = false; 
 
 
     // STARTING FUNCTIONS - READ FROM HERE!
     void Start ()
     {
+        sceneChanger = FindObjectOfType<SceneChanger>();
         SetPlayerAndEnemyStats();
     }	
 	void Update ()
@@ -208,9 +208,9 @@ public class CombatManager : MonoBehaviour {
         player.SetHealthDisplay();
         playerHpText.text = "Player Health:" + player.playerHealth;
 
-        if (player.playerHealth >= 0)
+        if (player.playerHealth <= 0)
         {
-
+            PlayerLost();
         }
     }
     public void EnemyTakenDamage(int damage)
@@ -219,9 +219,9 @@ public class CombatManager : MonoBehaviour {
         enemy.SetHealthDisplay();
         enemyHpText.text = "Enemy Health: " + enemy.enemyHealth;
 
-        if (player.playerHealth >= 0)
+        if (enemy.enemyHealth <= 0)
         {
-
+            PlayerWon();
         }
     }
     Card.ecardName ChooseRandomCardFromList(List<Card.ecardName> availableCards)
@@ -345,31 +345,34 @@ public class CombatManager : MonoBehaviour {
     }
     void ProcessPlayerAndEnemyEnergy()
     {
-        if (player.currentEnergy < 100)
+        if (!GameOver)
         {
-            player.timeUntilNextEnergy -= Time.deltaTime;
-            if (player.timeUntilNextEnergy <= 0)
+            if (player.currentEnergy < 100)
             {
-                player.currentEnergy += 1;
-                playerEnergyText.text = "Player Energy%: " + player.currentEnergy;
-                player.timeUntilNextEnergy = player.timeRequiredForEnergyRegen;
+                player.timeUntilNextEnergy -= Time.deltaTime;
+                if (player.timeUntilNextEnergy <= 0)
+                {
+                    player.currentEnergy += 1;
+                    playerEnergyText.text = "Player Energy%: " + player.currentEnergy;
+                    player.timeUntilNextEnergy = player.timeRequiredForEnergyRegen;
+                }
             }
-        }
-        if (enemy.currentEnergy < 100)
-        {
-            enemy.timeUntilNextEnergy -= Time.deltaTime;
-            if (enemy.timeUntilNextEnergy <= 0)
+            if (enemy.currentEnergy < 100)
             {
-                enemy.currentEnergy += 1;
-                enemyEnergyText.text = "Enemy Energy%: " + enemy.currentEnergy;
-                enemy.timeUntilNextEnergy = enemy.timeRequiredForEnergyRegen;
+                enemy.timeUntilNextEnergy -= Time.deltaTime;
+                if (enemy.timeUntilNextEnergy <= 0)
+                {
+                    enemy.currentEnergy += 1;
+                    enemyEnergyText.text = "Enemy Energy%: " + enemy.currentEnergy;
+                    enemy.timeUntilNextEnergy = enemy.timeRequiredForEnergyRegen;
+                }
             }
-        }
-        RectTransform playerEnergySliderRT = playerEnergySlider.GetComponent<RectTransform>();
-        playerEnergySliderRT.anchoredPosition = new Vector3(2* player.currentEnergy - 100, 0.0f, 0.0f);
+            RectTransform playerEnergySliderRT = playerEnergySlider.GetComponent<RectTransform>();
+            playerEnergySliderRT.anchoredPosition = new Vector3(2 * player.currentEnergy - 100, 0.0f, 0.0f);
 
-        RectTransform enemyEnergySliderRT = enemyEnergySlider.GetComponent<RectTransform>();
-        enemyEnergySliderRT.anchoredPosition = new Vector3(2 * enemy.currentEnergy - 100, 0.0f, 0.0f);
+            RectTransform enemyEnergySliderRT = enemyEnergySlider.GetComponent<RectTransform>();
+            enemyEnergySliderRT.anchoredPosition = new Vector3(2 * enemy.currentEnergy - 100, 0.0f, 0.0f);
+        }
 
     }
 
@@ -441,26 +444,26 @@ public class CombatManager : MonoBehaviour {
     void PlayerWon()
     {
         winState.SetActive(true);
-        playerWon = true;
+        GameOver = true;
+        StartCoroutine(PlayerWonEnum());
     }
 
     void PlayerLost()
     {
         loseState.SetActive(true);
-        playerLost = true;
+        GameOver = true;
+        StartCoroutine(PlayerLostEnum());
     }
 
     IEnumerator PlayerWonEnum()
     {
         yield return new WaitForSeconds(3.0f);
-
         sceneChanger.SceneLoad("Test_Map");
     }
 
     IEnumerator PlayerLostEnum()
     {
         yield return new WaitForSeconds(3.0f);
-
         sceneChanger.SceneLoad("Test_Map");
     }
 }
