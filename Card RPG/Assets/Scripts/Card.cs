@@ -55,6 +55,8 @@ public class Card : MonoBehaviour {
     }
 
     //General variables
+    public ParticleSystem clickParticle;
+
     public Sprite[] cardSpriteList;
     public ecardClass cardClass;
     public ecardElement cardElement;
@@ -413,7 +415,8 @@ public class Card : MonoBehaviour {
 
     public void onCursorClick()
     {
-        combatManager.ProcessPlayerCardUsing();
+
+        combatManager.ProcessPlayerCardUsing(clickParticle);
     }
 
     public void onCursorExit()

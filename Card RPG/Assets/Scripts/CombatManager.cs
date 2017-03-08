@@ -14,10 +14,18 @@ public class CombatManager : MonoBehaviour {
     public Color oiledColour;
     public Color defaultColour;
 
+    [Header("Particle Systems")]
+    //This won't hold up if enemies aren't hard coded
+    //Probably better to search child prefabs or something clever like that
+    public ParticleSystem playerParticles;
+    public ParticleSystem enemyParticles;
+
     //Prefabs
+    [Header("Prefabs")]
     public GameObject cardPrefab;
 
     //Important Game Objects
+    [Header("Game Objects")]
     public Player player;
     public GameObject characterObject;
     public Enemy enemy;
@@ -25,10 +33,12 @@ public class CombatManager : MonoBehaviour {
     public GameObject playerObject;
 
     //Player Combat Cards
+    [Header("Player Combat Cards")]
     public List<Card> cardHand;
     public Card currentlySelectedCard;
 
     //UI Stuff
+    [Header("UI Stuff")]
     public Canvas UICanvas;
     public Text playerHpText;
     public Text enemyHpText;
@@ -96,10 +106,16 @@ public class CombatManager : MonoBehaviour {
 
     //  ON UPDATE HELPER FUNCTIONS
         //Process Clicking functions:
-    public void ProcessPlayerCardUsing()
+    public void ProcessPlayerCardUsing(ParticleSystem clickParticle)
     {
         if (currentlySelectedCard.tier * 33 < player.currentEnergy) //if we have the energy to use the card
         {
+            //Whatever happens now, this card is going out. Open the flood gates for J_U_I_C_E
+            FX_CardUse("Player");
+            //Make the cool bling shit happen
+            clickParticle.Emit(1);
+            clickParticle.transform.parent = null;
+
             if (currentlySelectedCard.IsUseableShortRange == true && player.isInFrontLine == false)
             {
                 currentlySelectedCard.minDamage /= 2;
@@ -235,6 +251,9 @@ public class CombatManager : MonoBehaviour {
         else
         {
             Debug.Log("Enemy using: " + enemy.currentCard.cardName.ToString());
+            //Enemy juice time
+            FX_CardUse("Enemy");
+
             if (enemy.currentCard.cardClass == Card.ecardClass.DAMAGE)  //DAMAGE
             {
                 if (enemy.currentCard.IsUseableShortRange == true && enemy.isInFrontLine == false)
@@ -388,5 +407,16 @@ public class CombatManager : MonoBehaviour {
     void PlayRandomEnemyCard()
     {
         ProcessEnemyCardUsing();
+    }
+
+    void FX_CardUse(string user) //There's probably an enum or something for this
+    {
+        if (user == "Player")
+        {
+            enemyParticles.Emit(20);
+        }else
+        {
+            playerParticles.Emit(20);
+        }
     }
 }
