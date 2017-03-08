@@ -50,7 +50,11 @@ public class Player : MonoBehaviour {
             {
                 heartDisplays[i].sprite = heartSprites[0];
             }
+<<<<<<< HEAD
             return;
+=======
+                return;
+>>>>>>> Amber-CardClass
         }
 
         for (int i = 0; i < heartDisplays.Length; i++)

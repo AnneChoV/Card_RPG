@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+//green stuff.
+//arrows on sideppp
 public class Enemy : MonoBehaviour {
 
     //Combat Stats
@@ -45,6 +47,11 @@ public class Enemy : MonoBehaviour {
     {
         if (enemyHealth < 0)
         {
+                for (int i = 0; i < heartDisplays.Length; i++)
+                {
+                    heartDisplays[i].sprite = heartSprites[0];
+                }
+
             return;
         }
         numFullHearts = enemyHealth / 4;

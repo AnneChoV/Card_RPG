@@ -1,6 +1,12 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Card RPG/Assets/Prefabs/LoseImage.prefab.meta
 guid: 9db30070e8a12ca44a120310205697cd
 timeCreated: 1488948213
+=======
+guid: 09971c15500c36f45b973d67ca6018b8
+folderAsset: yes
+timeCreated: 1489003042
+>>>>>>> Amber-CardClass:Card RPG/Assets/Materials.meta
 licenseType: Free
 NativeFormatImporter:
   mainObjectFileID: 100100000
