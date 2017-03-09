@@ -70,7 +70,8 @@ public class CombatManager : MonoBehaviour {
     // STARTING FUNCTIONS - READ FROM HERE!
     void Start ()
     {
-        sceneChanger = FindObjectOfType<SceneChanger>();
+        actualRankMoveLerpSpeed = 8.0f;
+    sceneChanger = FindObjectOfType<SceneChanger>();
         playerStats = FindObjectOfType<PlayerStats>();
         soundManager = FindObjectOfType<SoundManager>();
         SetPlayerAndEnemyStats();
@@ -122,10 +123,14 @@ public class CombatManager : MonoBehaviour {
         actualRankMoveLerpSpeed = Mathf.Lerp(actualRankMoveLerpSpeed, targetRankMoveLerpSpeed, 4.0f * Time.deltaTime);
         if (player.isInFrontLine)
         {
+            Debug.Log("here");
+            Debug.Log(actualRankMoveLerpSpeed);
             characterObject.transform.position = Vector3.Lerp(characterObject.transform.position, new Vector3(-3.0f, 1.9f, 0.0f), actualRankMoveLerpSpeed * Time.deltaTime);
         }
         else
         {
+                        Debug.Log("here");
+            Debug.Log(actualRankMoveLerpSpeed);
             characterObject.transform.position = Vector3.Lerp(characterObject.transform.position, new Vector3(-8.0f, 1.9f, 0.0f), actualRankMoveLerpSpeed * Time.deltaTime);
         }
     }
@@ -527,13 +532,6 @@ public class CombatManager : MonoBehaviour {
                     enemy.timeUntilNextEnergy = enemy.timeRequiredForEnergyRegen;
                 }
             }
-
-            RectTransform playerEnergySliderRT = playerEnergySlider.GetComponent<RectTransform>();
-            playerEnergySliderRT.anchoredPosition = new Vector3(2 * player.currentEnergy - 100, 0.0f, 0.0f);
-
-            RectTransform enemyEnergySliderRT = enemyEnergySlider.GetComponent<RectTransform>();
-            enemyEnergySliderRT.anchoredPosition = new Vector3(2 * enemy.currentEnergy - 100, 0.0f, 0.0f);
-
         }
 
         playerEnergySliderRT.anchoredPosition = Vector2.Lerp(playerEnergySliderRT.anchoredPosition, new Vector3(2 * player.currentEnergy - 100, playerEnergySliderRT.anchoredPosition.y), 0.2f);
